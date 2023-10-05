@@ -1,0 +1,13 @@
+<div (click)="closeOverlay()" class="backdrop"></div>
+
+<div [style.width]="config?.width || '100%'" class="overlay-content">
+  <ng-template appOverlayAttachView></ng-template>
+  <button
+    (click)="closeOverlay()"
+    *ngIf="config?.showCloseButton"
+    @fadeOnEnter
+    class="close-btn"
+  >
+    <span class="material-symbols-outlined">close</span>
+  </button>
+</div>

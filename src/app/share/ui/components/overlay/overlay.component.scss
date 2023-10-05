@@ -1,0 +1,48 @@
+:host {
+  display: block;
+
+  height: 100%;
+
+  position: fixed;
+  gap: 0 10px;
+  top: 0;
+  left: 0;
+
+  z-index: 1000;
+
+
+  background: rgba(0,0,0,.32);
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: auto;
+
+    opacity: 1;
+  }
+
+  .overlay-content {
+    z-index: 1500;
+    position: absolute;
+    width: 80%;
+
+    display: flex;
+    gap: 0 20px;
+
+    .close-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 60px;
+      width: 60px;
+      margin-top: 1rem;
+
+
+      background-color: rgba(255, 255,255, .5);
+      border: none;
+      cursor: pointer;
+    }
+  }
+}

@@ -22,7 +22,14 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@/auth/index": ["src/app/auth/index"],
+      "@/styles/*": ["src/app/share/styles/*"],
+      "@/share/components/*": ["src/app/share/ui/components"],
+      "@/share/animations/index": ["src/app/share/ui/animations/index"],
+      "@/share/forms/*": ["src/app/share/ui/components/forms/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

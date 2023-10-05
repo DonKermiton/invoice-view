@@ -1,0 +1,21 @@
+<div class="container">
+  <form (ngSubmit)="onFormSubmit()" [formGroup]="loginForm">
+    <fieldset>
+      <legend>Login</legend>
+
+      <div class="control-container" layout-vertical>
+        <label for="email">Email</label>
+        <app-email formControlName="email" id="email" />
+      </div>
+
+      <hr />
+
+      <div class="control-container" layout-vertical>
+        <label for="password">Password</label>
+        <app-password formControlName="password" id="password" />
+      </div>
+    </fieldset>
+
+    <app-button [loading]="(loading$ | async)!" [text]="'Zaloguj'"></app-button>
+  </form>
+</div>

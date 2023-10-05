@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+
+[layout-horizontal] {
+  display: flex;
+
+}
+
+[layout-vertical] {
+  display: flex;
+  flex-direction: column;
+}

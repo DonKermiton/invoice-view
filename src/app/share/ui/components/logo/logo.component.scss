@@ -1,0 +1,43 @@
+@import "variables";
+
+
+$change_logo_dimensions: 600px;
+
+#logo__container {
+  height: 2.8rem;
+  width: max-content;
+  padding: 5px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-transform: uppercase;
+  border-radius: 50px;
+  background-color: $secondary;
+}
+
+#big {
+  display: none;
+}
+
+@container(max-width: $change_logo_dimensions) {
+  #small {
+    display: inline;
+  }
+
+  #big {
+    display: none;
+  }
+}
+
+@container(min-width: $change_logo_dimensions) {
+  #small {
+    display: none;
+  }
+
+  #big {
+    display: inline;
+  }
+
+}

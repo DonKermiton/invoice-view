@@ -1,0 +1,23 @@
+@import "variables";
+
+:host {
+  display: block;
+
+  height: 4.8rem;
+
+  background-color: $primary;
+  color: white;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+nav {
+  height: 100%;
+  padding: 0 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  container-type: size;
+}

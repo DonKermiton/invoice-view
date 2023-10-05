@@ -30,11 +30,18 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/material-symbols/index.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/share/styles/"
+              ]
+            }
           },
           "configurations": {
+
             "production": {
               "budgets": [
                 {
@@ -97,8 +104,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
+
