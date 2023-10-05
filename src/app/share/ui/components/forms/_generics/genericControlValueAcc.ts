@@ -1,4 +1,4 @@
-import { ControlValueAccessor, NgControl, ValidatorFn } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { ChangeDetectorRef, inject } from '@angular/core';
 
 export class GenericControlValueAcc<T = string>
@@ -12,24 +12,8 @@ export class GenericControlValueAcc<T = string>
     this.control = inject(NgControl);
     this.control.valueAccessor = this;
     this.cdRef = inject(ChangeDetectorRef);
-    this.control.valueChanges?.subscribe(() => {
-      console.log(this.control.errors);
-    });
   }
 
-  public get invalid(): boolean {
-    return this.control ? this.control.invalid! : false;
-  }
-
-  public get showError(): boolean {
-    if (!this.control) {
-      return false;
-    }
-
-    const { dirty, touched } = this.control;
-
-    return this.invalid ? (dirty || touched)! : false;
-  }
 
   get value(): T | null {
     return this.innerValue;
@@ -44,10 +28,6 @@ export class GenericControlValueAcc<T = string>
 
   writeValue(value: T) {
     this.innerValue = value;
-  }
-
-  public addValidators(validators: ValidatorFn | ValidatorFn[]): void {
-    this.control.control?.addValidators(validators);
   }
 
   registerOnChange(fn: (value: T) => void) {

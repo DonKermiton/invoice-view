@@ -83,7 +83,6 @@ export class LoginComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((user) => {
-        console.log('teraz')
         this.store.dispatch(AuthActions.authActions.login({ user: user.data }));
       });
   }
