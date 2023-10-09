@@ -1,21 +1,32 @@
 <div class="container">
   <form (ngSubmit)="onFormSubmit()" [formGroup]="loginForm">
-    <fieldset>
-      <legend>Login</legend>
+    <fieldset
+      [class]="{
+        'border-valid': loginForm.valid || !loginForm.touched,
+        'border-invalid': loginForm.invalid && loginForm.touched
+      }"
+    >
+      <img
+        class="img-responsive"
+        src="./assets/images/logo-big.png"
+        alt="logo"
+      />
+      <h2 class="text-align-center">Login</h2>
 
-      <div class="control-container" layout-vertical>
-        <label for="email">Email</label>
-        <app-email formControlName="email" id="email" />
+      <div class="form-container px-x">
+        <app-email formControlName="email" />
+        <app-password formControlName="password"></app-password>
       </div>
 
-      <hr />
-
-      <div class="control-container" layout-vertical>
-        <label for="password">Password</label>
-        <app-password formControlName="password" id="password" />
-      </div>
+      <app-button
+        layout-horizontal
+        [disabled]="loginForm.invalid"
+        style="justify-content: center; margin-top: 2rem"
+        class="mt-3"
+        tabindex="3"
+        [loading]="(loading$ | async)!"
+        [text]="'Zaloguj'"
+      ></app-button>
     </fieldset>
-
-    <app-button [loading]="(loading$ | async)!" [text]="'Zaloguj'"></app-button>
   </form>
 </div>

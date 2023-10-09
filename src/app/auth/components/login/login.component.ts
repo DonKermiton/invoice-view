@@ -2,8 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  OnInit,
+  HostBinding,
   inject,
+  OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@/share/forms/input/input.component';
@@ -13,6 +14,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { PasswordComponent } from '@/share/forms/password/password.component';
 import { ButtonComponent } from '../../../share/ui/components/button/button.component';
@@ -21,6 +23,7 @@ import { Store } from '@ngrx/store';
 import { AuthActions } from '../../store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, delay, of } from 'rxjs';
+import { Animations } from '@/share/animations/index';
 
 type LoginForm = {
   email: FormControl<string>;
@@ -41,8 +44,12 @@ type LoginForm = {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [Animations.fadeOnEnter],
 })
 export class LoginComponent implements OnInit {
+  @HostBinding('@fadeOnEnter')
+  public animationOnEnter = true;
+
   public loginForm!: FormGroup<LoginForm>;
   public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false,
@@ -89,8 +96,14 @@ export class LoginComponent implements OnInit {
 
   private initForm(): void {
     this.loginForm = this.formBuilder.group({
-      email: new FormControl('', { nonNullable: true }),
-      password: new FormControl('', { nonNullable: true }),
+      email: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
     });
   }
 }

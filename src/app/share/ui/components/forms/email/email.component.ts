@@ -1,21 +1,29 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@/share/forms/input/input.component';
-import { Validators } from '@angular/forms';
-import { InputValidation } from '@/share/forms/_generics/input-validation.utils';
+import { ReactiveFormsModule } from '@angular/forms';
+import {
+  GenericControlValueAcc,
+  GET_VALUE_ACCESSOR,
+} from '@/share/forms/_generics/generic-control-value-acc';
+import { ControlErrorComponent } from '@/share/forms/control-error/control-error.component';
 
 @Component({
   selector: 'app-email',
   standalone: true,
-  imports: [CommonModule, InputComponent],
+  imports: [
+    CommonModule,
+    InputComponent,
+    ReactiveFormsModule,
+    ControlErrorComponent,
+  ],
   templateUrl: './email.component.html',
   styleUrls: ['./email.component.scss'],
-  providers: [],
+  providers: [GET_VALUE_ACCESSOR(EmailComponent)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmailComponent {
-  public validation: InputValidation = new InputValidation().add([
-    Validators.required,
-    Validators.email,
-  ]);
+export class EmailComponent extends GenericControlValueAcc {
+  constructor() {
+    super();
+  }
 }

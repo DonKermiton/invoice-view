@@ -1,23 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class InputValidation {
-  private validators: ValidatorFn[] = [];
-
-  public add(validator: ValidatorFn | ValidatorFn[]): this {
-    if (Array.isArray(validator)) {
-      this.validators = [...this.validators, ...validator];
-    } else {
-      this.validators.push(validator);
-    }
-
-    return this;
-  }
-
-  public get(): ValidatorFn[] {
-    return this.validators.slice();
-  }
-
-  public static regexpWithCustomField(
+  public static regexpWithCustomErrorField(
     regex: RegExp,
     errorFieldName: string,
   ): ValidatorFn {

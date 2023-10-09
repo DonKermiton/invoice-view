@@ -1,1 +1,15 @@
-<app-input [autocomplete]="'email'" [validators]="validation" [type]="'email'"/>
+<div class="control-container">
+  <input
+    id="email"
+    autocomplete="email"
+    class="material-input"
+    placeholder="Type email"
+    *ngIf="formControl"
+    [formControl]="formControl"
+  />
+  <label class="input-label" for="email">Email {{controlRequired ? '*' : ''}}</label>
+  <app-control-error
+    [control]="formControl!"
+    [controlName]="formControlName! || 'control'"
+  />
+</div>

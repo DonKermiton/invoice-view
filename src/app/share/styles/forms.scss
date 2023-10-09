@@ -1,0 +1,55 @@
+@import "variables";
+
+.control-container {
+  width: 100%;
+  position: relative;
+
+  margin: 1rem 0;
+  height: 2rem;
+}
+
+.material-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-bottom: 2px solid $fifth;
+  background-color: transparent;
+  outline: none;
+  color: $secondary;
+  font-size: 1rem;
+  transition: .5s;
+}
+
+.material-input.ng-invalid.ng-dirty:not(:focus) {
+  border-bottom-color: red;
+}
+
+.input-label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  color: $secondary;
+  transform: translateY(-50%);
+  transition: .3s;
+}
+
+.material-input::placeholder {
+  color:transparent;
+}
+
+.material-input:focus::placeholder {
+  color: $primary
+}
+
+.material-input:focus + .input-label,
+.material-input:not(:placeholder-shown) + .input-label {
+  transform: translate(-10%, -150%) scale(.8);
+  left: 0;
+}
+
+.material-input:focus {
+  border-bottom-color: $secondary;
+}
+
+
+

@@ -21,6 +21,9 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 export class ButtonComponent {
   @Input({ required: true }) public text!: string;
 
+  @Input()
+  public disabled = false;
+
   @Input() public type: 'button' | 'submit' | 'reset' = 'button';
 
   @Input()

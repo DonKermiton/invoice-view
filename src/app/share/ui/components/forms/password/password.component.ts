@@ -1,36 +1,61 @@
-import { AfterViewInit, Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@/share/forms/input/input.component';
-import { Validators } from '@angular/forms';
+import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { BehaviorSubject, debounceTime, filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { InputValidation } from '../_generics/input-validation.utils';
+import {
+  GenericControlValueAcc,
+  GET_VALUE_ACCESSOR,
+} from '@/share/forms/_generics/generic-control-value-acc';
+import { InputValidation } from '@/share/forms/_generics/input-validation.utils';
+import { ControlErrorComponent } from '@/share/forms/control-error/control-error.component';
 
 @Component({
   selector: 'app-password',
   standalone: true,
-  imports: [CommonModule, InputComponent],
+  imports: [
+    CommonModule,
+    InputComponent,
+    ReactiveFormsModule,
+    ControlErrorComponent,
+  ],
+  providers: [GET_VALUE_ACCESSOR(PasswordComponent)],
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.scss'],
 })
-export class PasswordComponent implements AfterViewInit {
+export class PasswordComponent
+  extends GenericControlValueAcc
+  implements OnInit
+{
   public inputType$: BehaviorSubject<'password' | 'text'> = new BehaviorSubject<
     'password' | 'text'
   >('password');
-  public validation: InputValidation = new InputValidation().add([
-    Validators.required,
-    InputValidation.regexpWithCustomField(
+
+  public readonly validatorsCustomFields: Record<string, string> = {
+    bigLetterRequired: 'One uppercase letter is required',
+    missingDigit: 'One digit is required',
+    specialCharMissing: 'One of @$!%*#?& chars is required',
+  };
+
+  private readonly validators: ValidatorFn[] = [
+    InputValidation.regexpWithCustomErrorField(
       /(?=.*[A-Za-z])/,
       'bigLetterRequired',
     ),
-    InputValidation.regexpWithCustomField(/(?=.*\d)/, 'missingDigit'),
-    InputValidation.regexpWithCustomField(
+    InputValidation.regexpWithCustomErrorField(/(?=.*\d)/, 'missingDigit'),
+    InputValidation.regexpWithCustomErrorField(
       /(?=.*[@$!%*#?&])/,
       'specialCharMissing',
     ),
-  ]);
-
+  ];
   private destroyRef = inject(DestroyRef);
+
+  public ngOnInit() {
+    this.autoToggleOffPassword();
+    this.togglePasswordOnTyping();
+    this.afterViewInit = this.attachValidators;
+  }
 
   public showPassword(): void {
     switch (this.inputType$.getValue()) {
@@ -41,10 +66,6 @@ export class PasswordComponent implements AfterViewInit {
         this.inputType$.next('password');
         break;
     }
-  }
-
-  public ngAfterViewInit(): void {
-    this.autoToggleOffPassword();
   }
 
   public hidePassword(): void {
@@ -63,5 +84,15 @@ export class PasswordComponent implements AfterViewInit {
       .subscribe(() => {
         this.inputType$.next('password');
       });
+  }
+
+  private togglePasswordOnTyping(): void {
+    this.formControl?.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.hidePassword());
+  }
+
+  private attachValidators(): void {
+    this.formControl?.addValidators(this.validators);
   }
 }
