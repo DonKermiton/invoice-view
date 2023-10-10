@@ -21,12 +21,18 @@
       <app-button
         layout-horizontal
         [disabled]="loginForm.invalid"
-        style="justify-content: center; margin-top: 2rem"
+        style="justify-content: center"
         class="mt-3"
         tabindex="3"
         [loading]="(loading$ | async)!"
-        [text]="'Zaloguj'"
+        [text]="'Login'"
       ></app-button>
+      <div class="create-account-baner" layout-horizontal>
+        <div><h5>You don't have an account ?</h5></div>
+        <div>
+          <app-button type="button"><a>Create account</a></app-button>
+        </div>
+      </div>
     </fieldset>
   </form>
 </div>

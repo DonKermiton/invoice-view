@@ -19,7 +19,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
   animations: [],
 })
 export class ButtonComponent {
-  @Input({ required: true }) public text!: string;
+  @Input() public text!: string;
 
   @Input()
   public disabled = false;
