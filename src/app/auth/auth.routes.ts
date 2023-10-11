@@ -20,6 +20,13 @@ export const AuthRoutes: Routes = [
           hideFooter: true,
         },
       },
+      {
+        path: 'register',
+        loadComponent: () => import('./components/register/register.component').then(comp => comp.RegisterComponent),
+        data: {
+          hideFooter: true
+        }
+      }
     ],
   },
 ];

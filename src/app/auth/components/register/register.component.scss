@@ -1,0 +1,8 @@
+@import "share";
+$page-max-width: 800px;
+
+:host {
+  display: block;
+  max-width: $page-max-width;
+  margin: 5rem auto;
+}

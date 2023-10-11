@@ -26,3 +26,32 @@
 .text-align-center {
   text-align: center;
 }
+
+.d-block {
+  display: block;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.white-space-nowrap {
+  white-space: nowrap;
+}
+
+[layout-horizontal] {
+  display: flex;
+}
+
+[layout-vertical] {
+  display: flex;
+  flex-direction: column;
+}
+
+[justify-center] {
+  justify-content: center;
+}
+
+[align-items-center] {
+  align-items: center;
+}

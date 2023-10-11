@@ -65,15 +65,7 @@ fieldset {
   border-bottom: 5px solid red;
 }
 
-[layout-horizontal] {
-  display: flex;
 
-}
-
-[layout-vertical] {
-  display: flex;
-  flex-direction: column;
-}
 
 @media(min-width: 1600px) {
   .container {

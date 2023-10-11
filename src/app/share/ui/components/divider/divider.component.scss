@@ -1,0 +1,11 @@
+@import "variables";
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.divider {
+  height: 1px;
+  background-color: $fourth;
+}

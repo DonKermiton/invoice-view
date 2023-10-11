@@ -1,0 +1,46 @@
+@import "variables";
+@import "share";
+
+:host {
+  display: block;
+  overflow: hidden;
+}
+
+.stepper-header {
+  display: flex;
+  justify-content: space-between;
+
+  .step {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 2rem;
+    .step-btn {
+      display: block;
+      height: 4rem;
+
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      .index-indicator {
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+
+        background-color: $fifth;
+        line-height: 1.5rem;
+        border-radius: 50%;
+        color: white;
+
+        transition: .3s;
+      }
+    }
+  }
+}
+
+
+.active {
+  background-color: $primary !important;
+}

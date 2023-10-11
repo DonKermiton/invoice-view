@@ -1,0 +1,38 @@
+<div class="stepper-header">
+  <ng-container
+    *ngFor="
+      let step of steps;
+      let last = last;
+      let first = first;
+      let index = index
+    "
+  >
+    <div class="step">
+      <button
+        (click)="selectStep(index)"
+        class="step-btn transparent-btn white-space-nowrap"
+      >
+        <span
+          class="index-indicator"
+          [class.active]="selectedStep()?.index === index"
+        >
+          {{ index + 1 }}</span
+        >
+        {{ step.header }}
+      </button>
+    </div>
+    <div *ngIf="!last" layout-horizontal align-items-center class="w-100">
+      <app-divider />
+    </div>
+  </ng-container>
+</div>
+
+<div
+  class="content"
+  #content
+>
+  <ng-container  *ngIf="(selectedStep()?.template)!.template! as template">
+    <ng-container *ngTemplateOutlet="template"></ng-container>
+  </ng-container>
+</div>
+

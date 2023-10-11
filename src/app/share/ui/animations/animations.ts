@@ -58,3 +58,28 @@ export const fromRight = trigger('fromRight', [
     ),
   ]),
 ]);
+
+export const carousel = trigger('carousel', [
+  transition('out <=> toRight', [
+    style({
+      transform: 'translateX(-100%)',
+    }),
+    animate(
+      '.5s 300ms ease-out',
+      style({
+        transform: 'translateX(0%)',
+      }),
+    ),
+  ]),
+  transition('out <=> toLeft', [
+    style({
+      transform: 'translateX(100%)',
+    }),
+    animate(
+      '.5s 300ms ease-out',
+      style({
+        transform: 'translateX(0%)',
+      }),
+    ),
+  ]),
+]);
