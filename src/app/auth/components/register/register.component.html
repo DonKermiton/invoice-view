@@ -1,13 +1,45 @@
 <div class="container">
-  <app-stepper>
+  <img class="img-responsive" src="./assets/images/logo-big.png" alt="logo" />
+  <app-stepper #stepper>
     <app-step header="contact">
-      test
-      <app-button appStepperNextPage>next</app-button>
+      <form [formGroup]="userDataForm" class="login-form">
+        <app-email formControlName="email" />
+        <app-email [label]="'Confirm Email'" formControlName="confirmEmail" />
+        <app-password formControlName="password" />
+        <app-password [label]="'Confirm password'"  formControlName="confirmPassword"/>
+      </form>
     </app-step>
-    <app-step header="company">
-      test 2
+    <app-step style="height: 300px" header="company">
+      <form [formGroup]="companyDataForm" (ngSubmit)="onFormSubmit()">
+        <app-input label="Company name" placeholder="Type company name" formControlName="companyName"/>
+      </form>
     </app-step>
 
-
+    <div
+      footer
+      class="my-x"
+      [style.margin-top]="stepper.isLastIndex() ? '1rem' : '0'"
+    >
+      <app-button
+        class="w-100"
+        *ngIf="!stepper.isLastIndex()"
+        (click)="stepper.next()"
+        [disabled]="userDataForm.invalid || !userDataForm.touched"
+        >{{ "share.button.next" | i18n }}</app-button
+      >
+      <app-button
+        class="w-100"
+        *ngIf="stepper.isLastIndex()"
+        (click)="stepper.prev()"
+        >{{ "share.button.prev" | i18n }}</app-button
+      >
+      <app-button
+        (click)="onFormSubmit()"
+        *ngIf="companyDataForm.valid && userDataForm.valid"
+        class="mt-x"
+        type="submit"
+        >{{ "share.forms.register_user.create_account" | i18n }}</app-button
+      >
+    </div>
   </app-stepper>
 </div>

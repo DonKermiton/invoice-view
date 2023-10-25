@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@/share/forms/input/input.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +23,8 @@ import { ControlErrorComponent } from '@/share/forms/control-error/control-error
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailComponent extends GenericControlValueAcc {
+  @Input()
+  public label = 'Email';
   constructor() {
     super();
   }

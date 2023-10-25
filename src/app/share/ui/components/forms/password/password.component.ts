@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@/share/forms/input/input.component';
 import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
@@ -28,16 +28,23 @@ export class PasswordComponent
   extends GenericControlValueAcc
   implements OnInit
 {
+  @Input()
+  public label = 'Password';
+
+  @Input()
+  public showForgotPassword = false;
+
+  @Input()
+  public showPasswordVisible = false;
+
   public inputType$: BehaviorSubject<'password' | 'text'> = new BehaviorSubject<
     'password' | 'text'
   >('password');
-
   public readonly validatorsCustomFields: Record<string, string> = {
     bigLetterRequired: 'One uppercase letter is required',
     missingDigit: 'One digit is required',
     specialCharMissing: 'One of @$!%*#?& chars is required',
   };
-
   private readonly validators: ValidatorFn[] = [
     InputValidation.regexpWithCustomErrorField(
       /(?=.*[A-Za-z])/,

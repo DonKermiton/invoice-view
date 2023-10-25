@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import {
   AfterViewInit,
+  Attribute,
   ChangeDetectorRef,
   Directive,
   ElementRef,
@@ -84,6 +85,7 @@ export class GenericControlValueAcc<T = string>
     this.formControl = <FormControl>(
       this.form.form.controls[this.formControlName]
     );
+
     this.cdRef.detectChanges();
   }
 

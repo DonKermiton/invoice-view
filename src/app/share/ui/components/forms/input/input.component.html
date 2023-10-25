@@ -1,6 +1,14 @@
-<input
-  [autocomplete]="autocomplete"
-  [(ngModel)]="value"
-  [style]="inputStyles"
-  [type]="type"
-/>
+<div class="control-container">
+  <input
+    [id]="formControlName"
+    class="material-input"
+    [placeholder]="placeholder"
+    *ngIf="formControl"
+    [formControl]="formControl"
+  />
+  <label class="input-label" [for]="formControlName">{{label}} {{controlRequired ? '*' : ''}}</label>
+  <app-control-error
+    [control]="formControl!"
+    [controlName]="formControlName! || 'control'"
+  />
+</div>

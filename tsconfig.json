@@ -28,7 +28,9 @@
       "@/styles/*": ["src/app/share/styles/*"],
       "@/share/components/*": ["src/app/share/ui/components"],
       "@/share/animations/index": ["src/app/share/ui/animations/index"],
-      "@/share/forms/*": ["src/app/share/ui/components/forms/*"]
+      "@/share/forms/*": ["src/app/share/ui/components/forms/*"],
+      "@/share-forms/*": ["src/app/share/forms/*"],
+      "@/core/*": ["src/app/core/*"]
     }
   },
   "angularCompilerOptions": {

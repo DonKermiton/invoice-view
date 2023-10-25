@@ -7,7 +7,7 @@
     *ngIf="formControl"
     [formControl]="formControl"
   />
-  <label class="input-label" for="email">Email {{controlRequired ? '*' : ''}}</label>
+  <label class="input-label" for="email">{{label}} {{controlRequired ? '*' : ''}}</label>
   <app-control-error
     [control]="formControl!"
     [controlName]="formControlName! || 'control'"

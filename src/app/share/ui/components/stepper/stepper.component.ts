@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -28,6 +29,7 @@ type ActiveStepType = { template: StepComponent; index: number };
   imports: [CommonModule, DividerComponent],
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepperComponent implements AfterViewInit {
   @ContentChildren(StepComponent) public steps!: QueryList<StepComponent>;
@@ -48,6 +50,14 @@ export class StepperComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
+  public isLastIndex(): boolean {
+    if (!this.selectedStep()?.index) {
+      return false;
+    }
+
+    return this.selectedStep()!.index + 1 === this.steps.length;
+  }
+
   public prev(): void {
     this.skipToState(-1);
   }
@@ -60,8 +70,7 @@ export class StepperComponent implements AfterViewInit {
     const activeStep = this.selectedStep();
 
     if (!activeStep) {
-      this.selectStep(0);
-      return;
+      return this.selectStep(0);
     }
     const goTo = (activeStep.index + index) % this.steps.length;
     this.selectStep(goTo);

@@ -1,8 +1,21 @@
 @import "share";
-$page-max-width: 800px;
+@import "variables";
+$page-max-width: 400px;
 
 :host {
   display: block;
   max-width: $page-max-width;
   margin: 5rem auto;
+
+  box-shadow: rgba(0, 0, 0, 0.16) 0 10px 36px 0, rgba(0, 0, 0, 0.06) 0 0 0 1px;
+}
+
+app-stepper {
+  padding: 0 1rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

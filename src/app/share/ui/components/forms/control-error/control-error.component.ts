@@ -70,7 +70,6 @@ export class ControlErrorComponent implements OnChanges, OnDestroy {
     if (!key) {
       return;
     }
-    console.log(key);
     if (this.errorPatterns[key]) {
       this.errors.push(
         this.errorPatterns[key].replace(

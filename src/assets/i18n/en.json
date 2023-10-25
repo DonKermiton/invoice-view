@@ -1,0 +1,13 @@
+{
+  "share": {
+    "button": {
+      "next": "Next",
+      "prev": "Previous"
+    },
+    "forms": {
+      "register_user": {
+        "create_account": "Create account"
+      }
+    }
+  }
+}
