@@ -18,11 +18,8 @@ import {
 } from '@angular/forms';
 import { PasswordComponent } from '@/share/forms/password/password.component';
 import { ButtonComponent } from '../../../share/ui/components/button/button.component';
-import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
-import { AuthActions } from '../../store';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, catchError, delay, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Animations } from '@/share/animations/index';
 import { ManualLoginActions } from '../../store/auth.actions';
 
@@ -60,7 +57,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
     private store: Store,
   ) {}
 
@@ -87,25 +83,6 @@ export class LoginComponent implements OnInit {
         props: { email: emailFormValue, password: passwordFormValue },
       }),
     );
-
-    // this.authService
-    //   .login({
-    //     email: this.loginForm.controls['email'].value,
-    //     password: this.loginForm.controls['password'].value,
-    //   })
-    //   .pipe(
-    //     catchError((err) => {
-    //       this.loading$.next(false);
-    //       this.loginForm.setErrors({ credentialsInvalid: true });
-    //
-    //       return of(err);
-    //     }),
-    //     delay(2000),
-    //     takeUntilDestroyed(this.destroyRef),
-    //   )
-    //   .subscribe((user) => {
-    //     this.store.dispatch(AuthActions.authActions.login({ user: user.data }));
-    //   });
   }
 
   private initForm(): void {

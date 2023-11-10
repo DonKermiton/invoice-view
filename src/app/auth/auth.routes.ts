@@ -1,7 +1,4 @@
 import { Routes } from '@angular/router';
-import { importProvidersFrom } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { loggedUserReducers } from './store/auth.reducers';
 
 export const AuthRoutes: Routes = [
   {

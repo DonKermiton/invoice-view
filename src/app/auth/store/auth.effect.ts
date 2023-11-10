@@ -6,13 +6,12 @@ import {
   ManualLoginActions,
   RegisterActions,
 } from './auth.actions';
-import { catchError, EMPTY, map, of, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, map, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthTypes } from '@/auth/index';
-import { Store } from '@ngrx/store';
-import {} from '@/share/types';
+
 @Injectable()
 export class AuthEffect {
   public logout$ = createEffect(

@@ -1,10 +1,4 @@
-import {
-  APP_INITIALIZER,
-  NgModule,
-  isDevMode,
-  DoBootstrap,
-  ApplicationRef,
-} from '@angular/core';
+import { APP_INITIALIZER, isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
