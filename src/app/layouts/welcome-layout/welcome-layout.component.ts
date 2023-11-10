@@ -5,7 +5,11 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  RouterOutlet,
+} from '@angular/router';
 import { GuestFooterComponent } from './components/guest-footer/guest-footer.component';
 import { GuestNavComponent } from './components/guest-nav/guest-nav.component';
 
@@ -23,7 +27,7 @@ import { GuestNavComponent } from './components/guest-nav/guest-nav.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeLayoutComponent implements OnInit {
-  public showFooter = false;
+  public showFooter = true;
 
   private route: ActivatedRoute;
 
@@ -36,7 +40,16 @@ export class WelcomeLayoutComponent implements OnInit {
   }
 
   private displayFooter(): void {
-    this.showFooter =
-      !this.route.firstChild?.snapshot.firstChild?.data['hideFooter'];
+    this.checkHasHideFooterOrGoDeeper(this.route.snapshot);
+  }
+
+  private checkHasHideFooterOrGoDeeper(
+    activatedSnapshot: ActivatedRouteSnapshot,
+  ): void {
+    if (activatedSnapshot.data['hideFooter']) {
+      this.showFooter = !activatedSnapshot.data['hideFooter'];
+    } else if (activatedSnapshot.firstChild) {
+      this.checkHasHideFooterOrGoDeeper(activatedSnapshot.firstChild);
+    }
   }
 }

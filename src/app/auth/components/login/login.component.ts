@@ -24,6 +24,7 @@ import { AuthActions } from '../../store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, catchError, delay, of } from 'rxjs';
 import { Animations } from '@/share/animations/index';
+import { ManualLoginActions } from '../../store/auth.actions';
 
 type LoginForm = {
   email: FormControl<string>;
@@ -72,26 +73,39 @@ export class LoginComponent implements OnInit {
   }
 
   private login(): void {
-    this.loading$.next(true);
+    const emailFormValue: string | null =
+      this.loginForm.get('email')?.value || null;
+    const passwordFormValue: string | null =
+      this.loginForm.get('password')?.value || null;
 
-    this.authService
-      .login({
-        email: this.loginForm.controls['email'].value,
-        password: this.loginForm.controls['password'].value,
-      })
-      .pipe(
-        catchError((err) => {
-          this.loading$.next(false);
-          this.loginForm.setErrors({ credentialsInvalid: true });
+    if (!emailFormValue || !passwordFormValue) {
+      return;
+    }
 
-          return of(err);
-        }),
-        delay(2000),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe((user) => {
-        this.store.dispatch(AuthActions.authActions.login({ user: user.data }));
-      });
+    this.store.dispatch(
+      ManualLoginActions.start({
+        props: { email: emailFormValue, password: passwordFormValue },
+      }),
+    );
+
+    // this.authService
+    //   .login({
+    //     email: this.loginForm.controls['email'].value,
+    //     password: this.loginForm.controls['password'].value,
+    //   })
+    //   .pipe(
+    //     catchError((err) => {
+    //       this.loading$.next(false);
+    //       this.loginForm.setErrors({ credentialsInvalid: true });
+    //
+    //       return of(err);
+    //     }),
+    //     delay(2000),
+    //     takeUntilDestroyed(this.destroyRef),
+    //   )
+    //   .subscribe((user) => {
+    //     this.store.dispatch(AuthActions.authActions.login({ user: user.data }));
+    //   });
   }
 
   private initForm(): void {

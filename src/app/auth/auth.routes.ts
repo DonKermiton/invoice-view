@@ -6,9 +6,7 @@ import { loggedUserReducers } from './store/auth.reducers';
 export const AuthRoutes: Routes = [
   {
     path: '',
-    providers: [
-      importProvidersFrom(StoreModule.forFeature('Auth', loggedUserReducers)),
-    ],
+    providers: [],
     children: [
       {
         path: 'login',
@@ -22,11 +20,14 @@ export const AuthRoutes: Routes = [
       },
       {
         path: 'register',
-        loadComponent: () => import('./components/register/register.component').then(comp => comp.RegisterComponent),
+        loadComponent: () =>
+          import('./components/register/register.component').then(
+            (comp) => comp.RegisterComponent,
+          ),
         data: {
-          hideFooter: true
-        }
-      }
+          hideFooter: true,
+        },
+      },
     ],
   },
 ];

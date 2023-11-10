@@ -1,6 +1,19 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, catchError, EMPTY, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  delay,
+  EMPTY,
+  map,
+  Observable,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { inject, InjectionToken } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AutoLoginActions } from '../../auth/store/auth.actions';
+import { RequestTypes } from '@/share/types';
+import { User } from '../../auth/auth.types';
 
 export const HTTP_API_URL: InjectionToken<BehaviorSubject<string>> =
   new InjectionToken('HTTP_API_URL', {
@@ -8,10 +21,13 @@ export const HTTP_API_URL: InjectionToken<BehaviorSubject<string>> =
     factory: () => new BehaviorSubject<string>(''),
   });
 
-export function getHttpURL(http: HttpClient): () => Observable<any> {
+export function getHttpURL(
+  http: HttpClient,
+  store: Store,
+): () => Observable<User> {
   const http_url = inject(HTTP_API_URL);
-  return () =>
-    http.get<Record<string, string>>('assets/config/config.json').pipe(
+  return () => {
+    return http.get<Record<string, string>>('assets/config/config.json').pipe(
       tap((config: Record<string, string>) => {
         const apiUrl = config['api_url'];
 
@@ -25,5 +41,17 @@ export function getHttpURL(http: HttpClient): () => Observable<any> {
         console.error('[on app init] config file does not exists', err);
         return EMPTY;
       }),
+      switchMap(() => {
+        return http
+          .get<RequestTypes.HttpRequest<User>>(`/user`)
+          .pipe(map((user) => user.data));
+      }),
+      tap((user: User) =>
+        store.dispatch(AutoLoginActions.success({ props: user })),
+      ),
+      catchError(() => {
+        return EMPTY;
+      }),
     );
+  };
 }

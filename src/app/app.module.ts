@@ -1,4 +1,10 @@
-import { APP_INITIALIZER, NgModule, isDevMode } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  NgModule,
+  isDevMode,
+  DoBootstrap,
+  ApplicationRef,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -7,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffect } from './auth/store/auth.effect';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { loggedUserReducers } from './auth/store/auth.reducers';
 import {
   HTTP_INTERCEPTORS,
@@ -28,10 +34,16 @@ import { getHttpURL } from '@/core/http/set-http.utils';
     BrowserAnimationsModule,
     FormsModule,
     StoreModule.forRoot(loggedUserReducers),
+    StoreModule.forFeature('Auth', loggedUserReducers),
     EffectsModule.forRoot([AuthEffect]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: AuthInterceptor,
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: initTranslations,
@@ -42,12 +54,7 @@ import { getHttpURL } from '@/core/http/set-http.utils';
       provide: APP_INITIALIZER,
       useFactory: getHttpURL,
       multi: true,
-      deps: [HttpClient],
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      multi: true,
-      useClass: AuthInterceptor,
+      deps: [HttpClient, Store],
     },
   ],
   bootstrap: [AppComponent],

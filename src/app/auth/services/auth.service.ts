@@ -29,4 +29,8 @@ export class AuthService {
   public test(): Observable<any> {
     return this.http.get('http://localhost:8080/api');
   }
+
+  public getLoggedUser(): Observable<any> {
+    return this.http.get('/user');
+  }
 }

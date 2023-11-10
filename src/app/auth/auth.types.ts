@@ -8,9 +8,19 @@ export interface Login {
 }
 
 export interface Register {
-  firstName: string;
+  user: RegisterUser;
+  company: RegisterCompany;
+}
+
+export interface RegisterUser {
   email: string;
+  confirmEmail: string;
   password: string;
+  confirmPassword: string;
+}
+
+export interface RegisterCompany {
+  companyName: string;
 }
 
 export interface User {

@@ -1,9 +1,8 @@
 import {
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  signal,
-  WritableSignal,
+  Signal,
 } from '@angular/core';
 import { StepperComponent } from 'src/app/share/ui/components/stepper/stepper.component';
 import { StepComponent } from 'src/app/share/ui/components/stepper/step/step.component';
@@ -19,16 +18,19 @@ import {
 import { RegisterUserComponent } from '@/share-forms/register-user/register-user.component';
 import { CreateCompanyComponent } from '@/share-forms/create-company/create-company.component';
 import { I18nPipe } from '@/core/i18n/i18n.pipe';
-import { AuthService } from '../../services/auth.service';
-import { NgIf } from '@angular/common';
+import { JsonPipe, NgIf } from '@angular/common';
 import { DividerComponent } from '../../../share/ui/components/divider/divider.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { AuthActions } from '../../store';
-import { combineLatest } from 'rxjs';
 import { EmailComponent } from '@/share/forms/email/email.component';
 import { PasswordComponent } from '@/share/forms/password/password.component';
 import { InputComponent } from '@/share/forms/input/input.component';
+import { RegisterActions } from '../../store/auth.actions';
+import * as AuthTypes from '../../auth.types';
+import { User } from '../../auth.types';
+import { UserSelectors } from '../../store/auth.selectors';
+import { Actions, ofType } from '@ngrx/effects';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -47,44 +49,42 @@ import { InputComponent } from '@/share/forms/input/input.component';
     EmailComponent,
     PasswordComponent,
     InputComponent,
+    JsonPipe,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
   public userDataForm: FormGroup;
   public companyDataForm: FormGroup;
-  public isLoading: WritableSignal<boolean> = signal<boolean>(false);
+  public isLoading: Signal<boolean | undefined>;
+  public data: Signal<User | undefined>;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private destroyRef: DestroyRef,
     private store: Store,
-    private cdRef: ChangeDetectorRef,
+    private actions: Actions,
+    private destroyRef: DestroyRef,
+    private router: Router,
   ) {
+    this.isLoading = toSignal(this.store.select(UserSelectors.isPending));
+    this.data = toSignal(this.store.select(UserSelectors.data));
     this.userDataForm = this.buildUserForm();
     this.companyDataForm = this.buildCompanyForm();
-    combineLatest([
-      this.userDataForm.valueChanges,
-      this.companyDataForm.valueChanges,
-    ]).subscribe(() => this.cdRef.detectChanges());
+
+    this.onRegisterSuccess();
   }
 
   public onFormSubmit(): void {
-    this.isLoading.set(true);
-    this.authService
-      .register({
-        userData: this.userDataForm.getRawValue(),
-        companyData: this.companyDataForm.getRawValue(),
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (user) =>
-          this.store.dispatch(AuthActions.authActions.login({ user })),
-        error: () => this.isLoading.set(false),
-        complete: () => this.isLoading.set(false),
-      });
+    this.store.dispatch(
+      RegisterActions.start({
+        props: <AuthTypes.Register>{
+          user: this.userDataForm.getRawValue(),
+          company: this.companyDataForm.getRawValue(),
+        },
+      }),
+    );
   }
 
   private buildUserForm(): FormGroup {
@@ -114,5 +114,14 @@ export class RegisterComponent {
       },
       { updateOn: 'change' },
     );
+  }
+
+  private onRegisterSuccess(): void {
+    this.actions
+      .pipe(
+        ofType(RegisterActions.success),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => this.router.navigate(['/dashboard']));
   }
 }

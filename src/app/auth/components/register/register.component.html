@@ -1,5 +1,7 @@
 <div class="container">
   <img class="img-responsive" src="./assets/images/logo-big.png" alt="logo" />
+
+  {{data() | json}}
   <app-stepper #stepper>
     <app-step header="contact">
       <form [formGroup]="userDataForm" class="login-form">
