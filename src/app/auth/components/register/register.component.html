@@ -1,19 +1,33 @@
 <div class="container">
   <img class="img-responsive" src="./assets/images/logo-big.png" alt="logo" />
 
-  {{data() | json}}
   <app-stepper #stepper>
     <app-step header="contact">
       <form [formGroup]="userDataForm" class="login-form">
-        <app-email formControlName="email" />
-        <app-email [label]="'Confirm Email'" formControlName="confirmEmail" />
-        <app-password formControlName="password" />
-        <app-password [label]="'Confirm password'"  formControlName="confirmPassword"/>
+        <app-email formControlName="email" data-testid="email-test-control" />
+        <app-email
+          [label]="'Confirm Email'"
+          formControlName="confirmEmail"
+          data-testid="email-confirm-test-control"
+        />
+        <app-password
+          formControlName="password"
+          data-testid="password-test-control"
+        />
+        <app-password
+          [label]="'Confirm password'"
+          formControlName="confirmPassword"
+          data-testid="confirm-password-test-control"
+        />
       </form>
     </app-step>
     <app-step style="height: 300px" header="company">
       <form [formGroup]="companyDataForm" (ngSubmit)="onFormSubmit()">
-        <app-input label="Company name" placeholder="Type company name" formControlName="companyName"/>
+        <app-input
+          label="Company name"
+          placeholder="Type company name"
+          formControlName="companyName"
+        />
       </form>
     </app-step>
 

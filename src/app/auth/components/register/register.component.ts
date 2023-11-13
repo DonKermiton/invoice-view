@@ -31,6 +31,8 @@ import { User } from '../../auth.types';
 import { UserSelectors } from '../../store/auth.selectors';
 import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
+import { InputValidation } from '@/share/forms/_generics/input-validation.utils';
+import * as RegisterComponentTypes from './register.component.types';
 
 @Component({
   selector: 'app-register',
@@ -56,10 +58,16 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
-  public userDataForm: FormGroup;
-  public companyDataForm: FormGroup;
+  public userDataForm: FormGroup<RegisterComponentTypes.UserForm>;
+  public companyDataForm: FormGroup<RegisterComponentTypes.CompanyForm>;
   public isLoading: Signal<boolean | undefined>;
   public data: Signal<User | undefined>;
+
+  public readonly userFormDictionary: typeof RegisterComponentTypes.UserFormDictionary =
+    RegisterComponentTypes.UserFormDictionary;
+
+  public readonly companyFormDictionary: typeof RegisterComponentTypes.CompanyFormDictionary =
+    RegisterComponentTypes.CompanyFormDictionary;
 
   constructor(
     private fb: FormBuilder,
@@ -87,28 +95,55 @@ export class RegisterComponent {
     );
   }
 
-  private buildUserForm(): FormGroup {
+  private buildUserForm(): FormGroup<RegisterComponentTypes.UserForm> {
     return this.fb.group(
       {
-        email: new FormControl('', {
-          validators: [Validators.required, Validators.email],
-        }),
-        confirmEmail: new FormControl('', {
-          validators: [Validators.required, Validators.email],
-        }),
-        password: new FormControl('', { validators: [Validators.required] }),
-        confirmPassword: new FormControl('', {
-          validators: [Validators.required],
-        }),
+        [this.userFormDictionary.EMAIL]: new FormControl(
+          'dumbEmail@gmail.com',
+          {
+            validators: [Validators.required, Validators.email],
+          },
+        ),
+        [this.userFormDictionary.CONFIRM_EMAIL]: new FormControl(
+          'dumbEmail@gmail.com',
+          {
+            validators: [Validators.required, Validators.email],
+          },
+        ),
+        [this.userFormDictionary.PASSWORD]: new FormControl(
+          'RandomPassword#1',
+          {
+            validators: [Validators.required],
+          },
+        ),
+        [this.userFormDictionary.CONFIRM_PASSWORD]: new FormControl(
+          'RandomPassword#1',
+          {
+            validators: [Validators.required],
+          },
+        ),
       },
-      { updateOn: 'change' },
+      {
+        updateOn: 'change',
+        validators: [
+          InputValidation.controlsHaveSameValue(
+            this.userFormDictionary.EMAIL,
+            this.userFormDictionary.CONFIRM_EMAIL,
+            'different-emails',
+          ),
+          InputValidation.controlsHaveSameValue(
+            this.userFormDictionary.PASSWORD,
+            this.userFormDictionary.CONFIRM_PASSWORD,
+          ),
+        ],
+      },
     );
   }
 
-  private buildCompanyForm(): FormGroup {
+  private buildCompanyForm(): FormGroup<RegisterComponentTypes.CompanyForm> {
     return this.fb.group(
       {
-        companyName: new FormControl('', {
+        [this.companyFormDictionary.COMPANY_NAME]: new FormControl('', {
           validators: [Validators.required],
         }),
       },

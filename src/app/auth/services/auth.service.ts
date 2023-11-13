@@ -13,7 +13,7 @@ export class AuthService {
   }
 
   public login({ email, password }: AuthTypes.Login): Observable<any> {
-    return this.http.post('http://localhost:8080/api/login', {
+    return this.http.post('/login', {
       email,
       password,
     });

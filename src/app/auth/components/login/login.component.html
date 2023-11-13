@@ -24,13 +24,16 @@
         style="justify-content: center"
         class="mt-3"
         tabindex="3"
+        type="submit"
         [loading]="(loading$ | async)!"
         [text]="'Login'"
       ></app-button>
       <div class="create-account-baner" layout-horizontal>
         <div><h5>You don't have an account ?</h5></div>
         <div>
-          <app-button type="button"><a>Create account</a></app-button>
+          <app-button type="button" routerLink="/register"
+            ><a>Create account</a></app-button
+          >
         </div>
       </div>
     </fieldset>

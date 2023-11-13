@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@/share/forms/input/input.component';
-import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { BehaviorSubject, debounceTime, filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {

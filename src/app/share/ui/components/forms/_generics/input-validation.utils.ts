@@ -6,15 +6,29 @@ export class InputValidation {
     errorFieldName: string,
   ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const controlErrors = control.errors;
+      const valid = regex.test(control.value);
 
-      if (!controlErrors) {
+      return !valid ? { [errorFieldName]: control.value } : null;
+    };
+  }
+
+  public static controlsHaveSameValue(
+    firstControlName: string,
+    secondControlName: string,
+    customErrorField = 'Controls have different values',
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const passwordControlValue: string =
+        control.get(firstControlName)?.value || '';
+      const confirmPasswordControlValue: string =
+        control.get(secondControlName)?.value || '';
+
+      if (!passwordControlValue || !confirmPasswordControlValue) {
         return {};
       }
 
-      const valid = regex.test(control.value);
-
-      return !valid ? { [errorFieldName]: control.value } : {};
+      const valid = passwordControlValue === confirmPasswordControlValue;
+      return !valid ? { [customErrorField]: confirmPasswordControlValue } : {};
     };
   }
 }

@@ -22,6 +22,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import { Animations } from '@/share/animations/index';
 import { ManualLoginActions } from '../../store/auth.actions';
+import { RouterLink } from '@angular/router';
 
 type LoginForm = {
   email: FormControl<string>;
@@ -38,6 +39,7 @@ type LoginForm = {
     ReactiveFormsModule,
     PasswordComponent,
     ButtonComponent,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -87,11 +89,11 @@ export class LoginComponent implements OnInit {
 
   private initForm(): void {
     this.loginForm = this.formBuilder.group({
-      email: new FormControl('', {
+      email: new FormControl('pietrucha211221@gmail.com', {
         nonNullable: true,
         validators: [Validators.required, Validators.email],
       }),
-      password: new FormControl('', {
+      password: new FormControl('Warszawa#1', {
         nonNullable: true,
         validators: [Validators.required],
       }),

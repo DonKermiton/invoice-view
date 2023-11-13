@@ -6,11 +6,12 @@ import {
   ManualLoginActions,
   RegisterActions,
 } from './auth.actions';
-import { catchError, EMPTY, map, switchMap, tap } from 'rxjs';
+import { catchError, concatMap, EMPTY, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthTypes } from '@/auth/index';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthEffect {
@@ -26,18 +27,16 @@ export class AuthEffect {
   public register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RegisterActions.start),
-      switchMap(({ props }) =>
+      concatMap(({ props }) =>
         this.authService.register({
           userData: props.user,
           companyData: props.company,
         }),
       ),
-      tap(console.log),
       map((user) => RegisterActions.success({ props: user })),
-      catchError((err: HttpErrorResponse) => {
-        console.log('err', err);
-        RegisterActions.failed({ props: { err } });
-        return EMPTY;
+      catchError((err: HttpErrorResponse, caught) => {
+        this.store.dispatch(RegisterActions.failed({ props: { err } }));
+        return caught;
       }),
     ),
   );
@@ -52,13 +51,13 @@ export class AuthEffect {
             password: props.password,
           }),
         ),
-        catchError((err: HttpErrorResponse) => {
-          ManualLoginActions.failed({ props: { err } });
-          return EMPTY;
-        }),
-        tap((user: AuthTypes.User) =>
+        map((user: AuthTypes.User) =>
           ManualLoginActions.success({ props: user }),
         ),
+        catchError((err: HttpErrorResponse, caught) => {
+          this.store.dispatch(ManualLoginActions.failed({ props: { err } }));
+          return caught;
+        }),
       ),
     { dispatch: false },
   );
@@ -69,9 +68,9 @@ export class AuthEffect {
         ofType(AutoLoginActions.start),
         switchMap(() => this.authService.getLoggedUser()),
         map((user) => AutoLoginActions.success({ props: user })),
-        catchError((err) => {
-          AutoLoginActions.failed({ props: { err } });
-          return EMPTY;
+        catchError((err: HttpErrorResponse, caught) => {
+          this.store.dispatch(AutoLoginActions.failed({ props: { err } }));
+          return caught;
         }),
       );
     },
@@ -82,5 +81,6 @@ export class AuthEffect {
     private actions$: Actions,
     private router: Router,
     private authService: AuthService,
+    private store: Store,
   ) {}
 }
