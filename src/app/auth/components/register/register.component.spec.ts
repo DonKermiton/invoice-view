@@ -1,23 +1,33 @@
 import { RegisterComponent } from './register.component';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { Store, StoreModule } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
-import { CreateInitialState } from '../../../share/types/store.types';
+import { StoreModule } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { I18nService } from '@/core/i18n/i18n.service';
 import { I18nServiceTest } from '@/core/i18n/i18n.service.test';
 import { TestHelpers } from '@/testing';
+import { SingleHttpStore } from '@/store/single-http';
+import { RegisterActions } from '../../store/auth.actions';
+import * as AuthTypes from '../../auth.types';
+import { By } from '@angular/platform-browser';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   let el: DebugElement;
 
-  let store: Store;
-  const initalState = CreateInitialState({});
+  let store: MockStore;
+  const initialState = SingleHttpStore.CreateInitialState({});
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -29,7 +39,7 @@ describe('RegisterComponent', () => {
         NoopAnimationsModule,
       ],
       providers: [
-        provideMockStore({}),
+        provideMockStore({ initialState }),
         {
           provide: I18nService,
           useClass: I18nServiceTest,
@@ -44,7 +54,7 @@ describe('RegisterComponent', () => {
       })
       .catch(console.error);
 
-    store = TestBed.inject<Store>(Store);
+    store = TestBed.inject<MockStore>(MockStore);
   }));
 
   it('should create the component', () => {
@@ -69,8 +79,7 @@ describe('RegisterComponent', () => {
     expect(component.userDataForm.get('confirmEmail')?.valid).toBeTruthy();
   });
 
-  it('should emails match', async () => {
-    await fixture.whenStable();
+  it('should emails match', () => {
     fixture.detectChanges();
 
     const email = TestHelpers.findEl(fixture, 'email-test-control')
@@ -86,8 +95,7 @@ describe('RegisterComponent', () => {
     expect(component.userDataForm.hasError('different-emails')).toBeFalse();
   });
 
-  it('should emails be invalid', async () => {
-    await fixture.whenStable();
+  it('should emails be invalid', () => {
     fixture.detectChanges();
 
     const email = TestHelpers.findEl(fixture, 'email-test-control')
@@ -123,8 +131,7 @@ describe('RegisterComponent', () => {
     expect(component.userDataForm.get('password')?.valid).toBeFalse();
   });
 
-  it('should passwords match', async () => {
-    await fixture.whenStable();
+  it('should passwords match', () => {
     fixture.detectChanges();
 
     const passwordEl = TestHelpers.findEl(fixture, 'password-test-control')
@@ -135,14 +142,13 @@ describe('RegisterComponent', () => {
       'confirm-password-test-control',
     )?.nativeElement.childNodes[0].childNodes[0];
 
-    TestHelpers.setFieldElementValue(passwordEl, 'Warszawa#1');
-    TestHelpers.setFieldElementValue(confirmPasswordEl, 'Warszawa#1');
+    TestHelpers.setFieldElementValue(passwordEl, 'TestTest#1');
+    TestHelpers.setFieldElementValue(confirmPasswordEl, 'TestTest#1');
 
     expect(component.userDataForm.valid).toBeTrue();
   });
 
-  it('should passwords be different', async () => {
-    await fixture.whenStable();
+  it('should passwords be different', () => {
     fixture.detectChanges();
 
     const passwordEl = TestHelpers.findEl(fixture, 'password-test-control')
@@ -153,9 +159,41 @@ describe('RegisterComponent', () => {
       'confirm-password-test-control',
     )?.nativeElement.childNodes[0].childNodes[0];
 
-    TestHelpers.setFieldElementValue(passwordEl, 'Warszawa#1');
-    TestHelpers.setFieldElementValue(confirmPasswordEl, 'Krakowww#1');
+    TestHelpers.setFieldElementValue(passwordEl, 'TestTest#1');
+    TestHelpers.setFieldElementValue(confirmPasswordEl, 'XYZXYZXYYZY#1');
 
     expect(component.userDataForm.invalid).toBeTrue();
+  });
+
+  it('should render company step on click', fakeAsync(() => {
+    fixture.detectChanges();
+
+    const stepBtn = el.queryAll(By.css('.step-btn'))[1];
+    stepBtn.triggerEventHandler('click', {});
+    fixture.detectChanges();
+    tick(3000);
+
+    const companyName = TestHelpers.findEl(
+      fixture,
+      'companyName-test-control',
+    ).nativeElement.getAttribute('formcontrolname');
+
+    expect(companyName).toBe('companyName');
+    flush();
+  }));
+
+  it('should call an action on create', () => {
+    const dispatchSpy = spyOn(store, 'dispatch').and.callThrough();
+    fixture.detectChanges();
+    component.onFormSubmit();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      RegisterActions.start({
+        props: <AuthTypes.Register>{
+          user: component.userDataForm.getRawValue(),
+          company: component.companyDataForm.getRawValue(),
+        },
+      }),
+    );
   });
 });

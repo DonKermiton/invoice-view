@@ -1,25 +1,27 @@
 import { createAction, createActionGroup } from '@ngrx/store';
 import * as AuthTypes from './../auth.types';
-import { StoreTypes } from '@/share/types';
-
+import { SingleHttpStore } from '@/store/single-http';
 export const ManualLoginActions = createActionGroup({
   source: '[Login Page] Login Page',
-  events: StoreTypes.DefaultHttpActions<AuthTypes.Login, AuthTypes.User>(),
+  events: SingleHttpStore.DefaultHttpActions<AuthTypes.Login, AuthTypes.User>(),
 });
 
 export const AutoLoginActions = createActionGroup({
   source: '[APP_INIT] Login INIT',
-  events: StoreTypes.DefaultHttpActions<object, AuthTypes.User>(),
+  events: SingleHttpStore.DefaultHttpActions<object, AuthTypes.User>(),
 });
 
 export const RegisterActions = createActionGroup({
   source: '[Register Page] Register Page',
-  events: StoreTypes.DefaultHttpActions<AuthTypes.Register, AuthTypes.User>(),
+  events: SingleHttpStore.DefaultHttpActions<
+    AuthTypes.Register,
+    AuthTypes.User
+  >(),
 });
 
 export const LogoutActions = createActionGroup({
   source: '[Logout] Logout user',
-  events: StoreTypes.DefaultHttpActions(),
+  events: SingleHttpStore.DefaultHttpActions(),
 });
 
 export const logoutAction = createAction('[Login Page] logout');

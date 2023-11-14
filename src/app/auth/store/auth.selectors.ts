@@ -1,12 +1,9 @@
 import { createFeatureSelector } from '@ngrx/store';
 import { User } from '../auth.types';
-import {
-  DefaultHttpStructure,
-  DefaultSelectors,
-} from '../../share/types/store.types';
+import { SingleHttpStore } from '@/store/single-http';
 
-export type UserType = DefaultHttpStructure<User>;
+export type UserType = SingleHttpStore.DefaultHttpStructure<User>;
 
 export const selectAuthState = createFeatureSelector<UserType>('Auth');
 
-export const UserSelectors = DefaultSelectors(selectAuthState);
+export const UserSelectors = SingleHttpStore.DefaultSelectors(selectAuthState);

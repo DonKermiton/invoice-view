@@ -32,7 +32,8 @@
       "@/share-forms/*": ["src/app/share/forms/*"],
       "@/share/types": ["src/app/share/types/index"],
       "@/core/*": ["src/app/core/*"],
-      "@/testing": ["src/app/share/testing/index"]
+      "@/testing": ["src/app/share/testing/index"],
+      "@/store/single-http": ["src/app/share/store/single-http/index"]
     }
   },
   "angularCompilerOptions": {

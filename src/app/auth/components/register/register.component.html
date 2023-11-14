@@ -21,12 +21,13 @@
         />
       </form>
     </app-step>
-    <app-step style="height: 300px" header="company">
+    <app-step style="height: 300px" header="company" data-testid="company-step-test">
       <form [formGroup]="companyDataForm" (ngSubmit)="onFormSubmit()">
         <app-input
           label="Company name"
           placeholder="Type company name"
           formControlName="companyName"
+          data-testid="companyName-test-control"
         />
       </form>
     </app-step>
