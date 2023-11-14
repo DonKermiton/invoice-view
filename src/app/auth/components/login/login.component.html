@@ -14,8 +14,8 @@
       <h2 class="text-align-center">Login</h2>
 
       <div class="form-container px-x">
-        <app-email formControlName="email" />
-        <app-password formControlName="password"></app-password>
+        <app-email formControlName="email" data-testid="email-test-control"/>
+        <app-password formControlName="password" data-testid="password-test-control"></app-password>
       </div>
 
       <app-button
@@ -31,7 +31,7 @@
       <div class="create-account-baner" layout-horizontal>
         <div><h5>You don't have an account ?</h5></div>
         <div>
-          <app-button type="button" routerLink="/register"
+          <app-button type="button" routerLink="/register" data-testid="create-account"
             ><a>Create account</a></app-button
           >
         </div>

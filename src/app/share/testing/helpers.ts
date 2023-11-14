@@ -9,6 +9,10 @@ export function findEl<T>(
   return fixture.debugElement.query(By.css(`[data-testid="${testId}"]`));
 }
 
+export function getNestedInput(el: DebugElement): any {
+  console.log(el);
+}
+
 export function click<T>(fixture: ComponentFixture<T>, testId: string): void {
   const el = findEl(fixture, testId);
   const event = makeClickEvent(el.nativeElement);

@@ -55,8 +55,6 @@ export class LoginComponent implements OnInit {
     false,
   );
 
-  private readonly destroyRef = inject(DestroyRef);
-
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
@@ -70,7 +68,7 @@ export class LoginComponent implements OnInit {
     this.login();
   }
 
-  private login(): void {
+  public login(): void {
     const emailFormValue: string | null =
       this.loginForm.get('email')?.value || null;
     const passwordFormValue: string | null =
@@ -88,15 +86,18 @@ export class LoginComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.loginForm = this.formBuilder.group({
-      email: new FormControl('pietrucha211221@gmail.com', {
-        nonNullable: true,
-        validators: [Validators.required, Validators.email],
-      }),
-      password: new FormControl('Warszawa#1', {
-        nonNullable: true,
-        validators: [Validators.required],
-      }),
-    });
+    this.loginForm = this.formBuilder.group(
+      {
+        email: new FormControl('TestTest@test.com', {
+          nonNullable: true,
+          validators: [Validators.required, Validators.email],
+        }),
+        password: new FormControl('TestTest#1', {
+          nonNullable: true,
+          validators: [Validators.required],
+        }),
+      },
+      { updateOn: 'change' },
+    );
   }
 }
