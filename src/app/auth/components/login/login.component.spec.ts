@@ -21,7 +21,7 @@ import { AuthRoutes } from '../../index';
 import { Location } from '@angular/common';
 import { TestHelpers } from '@/testing';
 import { By } from '@angular/platform-browser';
-import { ManualLoginActions, RegisterActions } from '../../store/auth.actions';
+import { ManualLoginActions } from '../../store/auth.actions';
 import * as AuthTypes from '../../auth.types';
 describe('LoginComponent', () => {
   let component: LoginComponent;

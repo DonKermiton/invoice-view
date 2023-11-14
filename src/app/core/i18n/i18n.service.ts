@@ -8,7 +8,7 @@ import { Observable, catchError, tap } from 'rxjs';
 export class I18nService {
   private translations: Record<string, string | any> = {};
   private translationsCache: Map<string, string> = new Map();
-  public setTranslation(translation: Record<string, string>): void {
+  public setTranslation(translation: Record<string, string | object>): void {
     this.translations = translation;
   }
 
@@ -26,7 +26,13 @@ export class I18nService {
     }
 
     for (let i = 1; i < split.length; i++) {
-      ref = ref[split[i]];
+      try {
+        ref = ref[split[i]];
+      } catch {
+        console.error(`${key} is unknown`);
+        ref = `key ${key} is unknown`;
+        break;
+      }
     }
 
     this.translationsCache.set(key, <string>ref);

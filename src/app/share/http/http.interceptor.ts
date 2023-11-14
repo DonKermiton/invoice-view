@@ -28,8 +28,10 @@ export class AuthInterceptor implements HttpInterceptor {
     const skipAutoUrl: string = req.context.get(CUSTOM_URL);
     let url = req.url;
 
-    if (this.httpAPIURL.getValue() && !skipAutoUrl) {
+    if (!skipAutoUrl) {
       url = this.httpAPIURL.getValue() + req.url;
+    } else if (skipAutoUrl) {
+      url = skipAutoUrl + req.url;
     }
 
     const reqClone = req.clone({
