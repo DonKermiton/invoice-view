@@ -13,11 +13,13 @@
         <app-password
           formControlName="password"
           data-testid="password-test-control"
+          [validatorsCustomField]="passwordCustomErrorFields"
         />
         <app-password
           [label]="'Confirm password'"
           formControlName="confirmPassword"
           data-testid="confirm-password-test-control"
+          [validatorsCustomField]="passwordCustomErrorFields"
         />
       </form>
     </app-step>

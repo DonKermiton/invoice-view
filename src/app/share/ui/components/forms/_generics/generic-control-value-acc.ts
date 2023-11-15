@@ -4,6 +4,7 @@ import {
   FormControl,
   FormGroupDirective,
   NG_VALUE_ACCESSOR,
+  ValidatorFn,
 } from '@angular/forms';
 import {
   AfterViewInit,
@@ -13,6 +14,7 @@ import {
   ElementRef,
   forwardRef,
   inject,
+  Input,
   Provider,
   Type,
 } from '@angular/core';
@@ -28,12 +30,14 @@ export const GET_VALUE_ACCESSOR = (component: Type<any>) =>
 export class GenericControlValueAcc<T = string>
   implements ControlValueAccessor, AfterViewInit
 {
+  @Input()
+  public validatorsCustomField: Record<string, string> = {};
+
   public formControl: FormControl | null = null;
   public formControlName: string | null = null;
   public elementRef: ElementRef;
   public cdRef: ChangeDetectorRef;
   public controlRequired = false;
-  protected afterViewInit: () => void = () => void 0;
   private form: FormGroupDirective;
 
   constructor() {
@@ -73,7 +77,6 @@ export class GenericControlValueAcc<T = string>
       this.controlRequired =
         this.formControl?.validator({} as AbstractControl)!['required'] || {};
       this.cdRef.detectChanges();
-      this.afterViewInit();
     }
   }
 

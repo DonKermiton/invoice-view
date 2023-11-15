@@ -115,6 +115,30 @@ describe('LoginComponent', () => {
       TestHelpers.setFieldElementValue(el.nativeElement, 'test');
       expect(component.loginForm.get('password')?.valid).toBeFalse();
     });
+
+    it('should password has one digit', fakeAsync(() => {
+      fixture.detectChanges();
+      TestHelpers.setFieldElementValue(el.nativeElement, 'Password#');
+      expect(
+        component.loginForm.get('password')?.hasError('missingDigit'),
+      ).toBeTruthy();
+      TestHelpers.setFieldElementValue(el.nativeElement, 'Password#1');
+      expect(
+        component.loginForm.get('password')?.hasError('missingDigit'),
+      ).toBeFalsy();
+    }));
+
+    it('should password has one special character', fakeAsync(() => {
+      fixture.detectChanges();
+      TestHelpers.setFieldElementValue(el.nativeElement, 'Password1');
+      expect(
+        component.loginForm.get('password')?.hasError('specialCharMissing'),
+      ).toBeTruthy();
+      TestHelpers.setFieldElementValue(el.nativeElement, 'Password#1');
+      expect(
+        component.loginForm.get('password')?.hasError('specialCharMissing'),
+      ).toBeFalsy();
+    }));
   });
 
   describe('Login action tests', () => {

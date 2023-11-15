@@ -14,6 +14,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { PasswordComponent } from '@/share/forms/password/password.component';
@@ -23,6 +24,10 @@ import { BehaviorSubject } from 'rxjs';
 import { Animations } from '@/share/animations/index';
 import { ManualLoginActions } from '../../store/auth.actions';
 import { RouterLink } from '@angular/router';
+import {
+  userPasswordValidators,
+  userValidatorsErrorFields,
+} from '../../share/user-password.utils';
 
 type LoginForm = {
   email: FormControl<string>;
@@ -54,6 +59,10 @@ export class LoginComponent implements OnInit {
   public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false,
   );
+
+  public readonly passwordCustomErrorFields: Record<string, string> =
+    userValidatorsErrorFields;
+  private readonly passwordValidators: ValidatorFn[] = userPasswordValidators;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -94,7 +103,7 @@ export class LoginComponent implements OnInit {
         }),
         password: new FormControl('TestTest#1', {
           nonNullable: true,
-          validators: [Validators.required],
+          validators: [Validators.required, ...this.passwordValidators],
         }),
       },
       { updateOn: 'change' },

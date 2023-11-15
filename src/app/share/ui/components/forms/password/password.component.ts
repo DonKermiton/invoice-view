@@ -1,14 +1,20 @@
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@/share/forms/input/input.component';
-import { ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, debounceTime, filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   GenericControlValueAcc,
   GET_VALUE_ACCESSOR,
 } from '@/share/forms/_generics/generic-control-value-acc';
-import { InputValidation } from '@/share/forms/_generics/input-validation.utils';
 import { ControlErrorComponent } from '@/share/forms/control-error/control-error.component';
 
 @Component({
@@ -40,28 +46,12 @@ export class PasswordComponent
   public inputType$: BehaviorSubject<'password' | 'text'> = new BehaviorSubject<
     'password' | 'text'
   >('password');
-  public readonly validatorsCustomFields: Record<string, string> = {
-    bigLetterRequired: 'One uppercase letter is required',
-    missingDigit: 'One digit is required',
-    specialCharMissing: 'One of @$!%*#?& chars is required',
-  };
-  private readonly validators: ValidatorFn[] = [
-    InputValidation.regexpWithCustomErrorField(
-      /(?=.*[A-Za-z])/,
-      'bigLetterRequired',
-    ),
-    InputValidation.regexpWithCustomErrorField(/(?=.*\d)/, 'missingDigit'),
-    InputValidation.regexpWithCustomErrorField(
-      /(?=.*[@$!%*#?&])/,
-      'specialCharMissing',
-    ),
-  ];
+
   private destroyRef = inject(DestroyRef);
 
   public ngOnInit() {
     this.autoToggleOffPassword();
     this.togglePasswordOnTyping();
-    this.afterViewInit = this.attachValidators;
   }
 
   public showPassword(): void {
@@ -89,6 +79,7 @@ export class PasswordComponent
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => {
+        console.log('teraz');
         this.inputType$.next('password');
       });
   }
@@ -97,9 +88,5 @@ export class PasswordComponent
     this.formControl?.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.hidePassword());
-  }
-
-  private attachValidators(): void {
-    this.formControl?.addValidators(this.validators);
   }
 }

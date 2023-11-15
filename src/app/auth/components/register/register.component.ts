@@ -13,6 +13,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { RegisterUserComponent } from '@/share-forms/register-user/register-user.component';
@@ -33,6 +34,10 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { InputValidation } from '@/share/forms/_generics/input-validation.utils';
 import * as RegisterComponentTypes from './register.component.types';
+import {
+  userPasswordValidators,
+  userValidatorsErrorFields,
+} from '../../share/user-password.utils';
 
 @Component({
   selector: 'app-register',
@@ -68,6 +73,10 @@ export class RegisterComponent {
 
   public readonly companyFormDictionary: typeof RegisterComponentTypes.CompanyFormDictionary =
     RegisterComponentTypes.CompanyFormDictionary;
+
+  public readonly passwordCustomErrorFields: Record<string, string> =
+    userValidatorsErrorFields;
+  private readonly passwordValidators: ValidatorFn[] = userPasswordValidators;
 
   constructor(
     private fb: FormBuilder,
@@ -113,13 +122,13 @@ export class RegisterComponent {
         [this.userFormDictionary.PASSWORD]: new FormControl(
           'RandomPassword#1',
           {
-            validators: [Validators.required],
+            validators: [Validators.required, ...this.passwordValidators],
           },
         ),
         [this.userFormDictionary.CONFIRM_PASSWORD]: new FormControl(
           'RandomPassword#1',
           {
-            validators: [Validators.required],
+            validators: [Validators.required, ...this.passwordValidators],
           },
         ),
       },

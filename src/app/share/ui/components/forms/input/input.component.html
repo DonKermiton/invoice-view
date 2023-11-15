@@ -6,7 +6,7 @@
     *ngIf="formControl"
     [formControl]="formControl"
   />
-  <label class="input-label" [for]="formControlName">{{label}} {{controlRequired ? '*' : ''}}</label>
+  <label data-testid="input-label" class="input-label" [for]="formControlName">{{label}} {{controlRequired ? '*' : ''}}</label>
   <app-control-error
     [control]="formControl!"
     [controlName]="formControlName! || 'control'"
