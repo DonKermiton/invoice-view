@@ -58,7 +58,6 @@ export class ControlErrorComponent implements OnChanges, OnDestroy {
     this.sub$?.unsubscribe();
     const subRef = this.control?.valueChanges.pipe().subscribe(() => {
       const key = Object.keys(this.control?.errors || {})[0];
-      this.errors = [];
       this.matchKeysToError(key);
       this.cdRef.detectChanges();
     });
