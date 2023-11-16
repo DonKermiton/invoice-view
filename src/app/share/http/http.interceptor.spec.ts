@@ -50,7 +50,9 @@ describe('[HttpInterceptor] add path', () => {
   });
 
   it('should send request', () => {
-    http.get('test').subscribe();
+    http.get('test').subscribe((response) => {
+      expect(response).toBeTruthy();
+    });
     httpMock.expectOne('111.111.111/test');
   });
 
@@ -62,7 +64,9 @@ describe('[HttpInterceptor] add path', () => {
       .get('/test', {
         context,
       })
-      .subscribe();
+      .subscribe((response) => {
+        expect(response).toBeTruthy();
+      });
     httpMock.expectOne('newUrl/test');
   });
 });
