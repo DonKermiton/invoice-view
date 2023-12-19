@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <div layout-horizontal justify-space-between>
+    <h4 class="px-m mt-x">Title</h4>
+    <div>
+      <button (click)="close()" class="transparent-btn">
+        <span class="material-symbols-outlined"> close </span>
+      </button>
+    </div>
+  </div>
+  <small style="padding: 5px 10px 5px 10px;
+  display: block;" [innerHTML]="config.text" (click)="test()"> </small>
+  <div *ngIf="config.timeout" class="progress-bar" [style.width]="progressBar()"></div>
+</div>

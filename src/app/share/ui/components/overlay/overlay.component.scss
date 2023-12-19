@@ -7,11 +7,12 @@
   gap: 0 10px;
   top: 0;
   left: 0;
+  pointer-events: none;
+
 
   z-index: 1000;
 
 
-  background: rgba(0,0,0,.32);
 
   .backdrop {
     position: absolute;
@@ -20,15 +21,17 @@
     pointer-events: auto;
 
     opacity: 1;
+    background: rgba(0,0,0,.32);
   }
 
-  .overlay-content {
+  .overlay-element {
     z-index: 1500;
     position: absolute;
-    width: 80%;
 
     display: flex;
     gap: 0 20px;
+
+    pointer-events: fill;
 
     .close-btn {
       display: flex;

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {NotificationService} from "../../../share/ui/services/notification.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,5 +10,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-
+  constructor(public notificationService: NotificationService) {
+  }
 }

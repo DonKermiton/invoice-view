@@ -22,6 +22,8 @@ export class GuestNavComponent {
     const portalRef = this.overlayService.openOverlay({
       component: SidemenuComponent,
       width: '80%',
+      showBackdrop: true,
+      closeOnBackdropClick: true
     });
   }
 }

@@ -1,12 +1,9 @@
-import { inject, Injectable } from '@angular/core';
-import {
-  PortalInstance,
-  PortalService,
-} from '../../services/portal/portal.service';
-import { OverlayComponent } from './overlay.component';
-import { OverlayTypes } from './index';
+import {ComponentRef, inject, Injectable} from '@angular/core';
+import {PortalInstance, PortalService,} from '../../services/portal/portal.service';
+import {OverlayComponent} from './overlay.component';
+import {OverlayTypes} from './index';
 
-type PortalKind = OverlayTypes.Component | OverlayTypes.Template;
+export type PortalKind = OverlayTypes.Component | OverlayTypes.Template;
 
 @Injectable({
   providedIn: 'root',
@@ -14,29 +11,37 @@ type PortalKind = OverlayTypes.Component | OverlayTypes.Template;
 export class OverlayService {
   public portalReference: PortalInstance | null = null;
   private portalService: PortalService;
+  private overlayComponent: OverlayComponent | null = null
+
 
   constructor() {
     this.portalService = inject(PortalService);
   }
 
-  public openOverlay<TDataStream = any>(
+  public openOverlay<T = any>(
     config: PortalKind,
-  ): PortalInstance<TDataStream> {
-    this.portalReference = this.portalService.open({
-      component: OverlayComponent,
-    });
+  ): ComponentRef<T> | undefined {
+    this.checkAndCreateOverlay();
+    const component = this.attachNewViewToOverlay<T>(config);
 
     this.passConfigToInstance(config);
-    return this.portalReference;
+    return component;
   }
 
-  public closeOverlay(): void {
-    // todo::
-    this.portalReference?.destroy({});
+  private checkAndCreateOverlay(): void {
+    if (!this.portalReference) {
+      this.portalReference = this.portalService.open({
+        component: OverlayComponent,
+      });
+      this.overlayComponent = <OverlayComponent>this.portalReference.component.instance
+    }
   }
 
-  public onClose() {
-    // todo::
+  private attachNewViewToOverlay<T>(config: PortalKind): ComponentRef<T> | undefined {
+    if(!this.overlayComponent) {
+      throw new Error("[attachNewViewToOverlay] ERROR = overlayComponent is null")
+    }
+   return this.overlayComponent.attach<T>(config)
   }
 
   private passConfigToInstance(config: PortalKind): void {

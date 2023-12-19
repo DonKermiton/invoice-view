@@ -4,13 +4,11 @@ interface Default {
   showCloseButton?: boolean;
   closeOnBackdropClick?: boolean;
   width?: string;
+  showBackdrop?: boolean;
 }
 
 export interface Component extends Default {
   component: Type<any>;
-  animations?: {
-    duration: number;
-  };
 }
 
 export interface Template extends Default {
