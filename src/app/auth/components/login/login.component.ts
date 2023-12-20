@@ -28,6 +28,7 @@ import {
   userPasswordValidators,
   userValidatorsErrorFields,
 } from '../../share/user-password.utils';
+import { SelectComponent } from '@/share/forms/select/select.component';
 
 type LoginForm = {
   email: FormControl<string>;
@@ -45,6 +46,7 @@ type LoginForm = {
     PasswordComponent,
     ButtonComponent,
     RouterLink,
+    SelectComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],

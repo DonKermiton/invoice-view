@@ -1,0 +1,7 @@
+@for ( item of items; track item) {
+    @if(!customSelectItem) {
+      <app-select-default-item (click)="itemSelected(item)" ></app-select-default-item>
+    } @else {
+      <ng-container  *ngTemplateOutlet="customSelectItem"></ng-container>
+    }
+}
