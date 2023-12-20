@@ -19,7 +19,7 @@ import {
 import { RegisterUserComponent } from '@/share-forms/register-user/register-user.component';
 import { CreateCompanyComponent } from '@/share-forms/create-company/create-company.component';
 import { I18nPipe } from '@/core/i18n/i18n.pipe';
-import { JsonPipe, NgIf } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { DividerComponent } from '../../../share/ui/components/divider/divider.component';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
@@ -51,13 +51,12 @@ import {
     RegisterUserComponent,
     CreateCompanyComponent,
     I18nPipe,
-    NgIf,
     DividerComponent,
     EmailComponent,
     PasswordComponent,
     InputComponent,
-    JsonPipe,
-  ],
+    JsonPipe
+],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -24,8 +24,8 @@ import { PasswordComponent } from '@/share/forms/password/password.component';
     CommonModule,
     ReactiveFormsModule,
     EmailComponent,
-    PasswordComponent,
-  ],
+    PasswordComponent
+],
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

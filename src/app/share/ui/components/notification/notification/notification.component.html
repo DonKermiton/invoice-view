@@ -9,5 +9,7 @@
   </div>
   <small style="padding: 5px 10px 5px 10px;
   display: block;" [innerHTML]="config.text" (click)="test()"> </small>
-  <div *ngIf="config.timeout" class="progress-bar" [style.width]="progressBar()"></div>
+  @if (config.timeout) {
+    <div class="progress-bar" [style.width]="progressBar()"></div>
+  }
 </div>

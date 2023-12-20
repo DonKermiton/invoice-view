@@ -1,3 +1,5 @@
-<div (click)="onBackdropClick()" *ngIf="!!showBackdropForEl" class="backdrop"></div>
+@if (!!showBackdropForEl) {
+  <div (click)="onBackdropClick()" class="backdrop"></div>
+}
 
 <ng-template appOverlayAttachView></ng-template>

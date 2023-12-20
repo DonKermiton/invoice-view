@@ -1,5 +1,5 @@
 <div class="notification-wrapper">
-  <ng-container *ngFor="let notification of notifications(); let i = index">
+  @for (notification of notifications();track notification;let i = $index) {
     <app-notification
       appNotificationDimension
       (heightChange)="notificationHeightChanged($event)"
@@ -7,6 +7,7 @@
       [index]="i"
       [notification]="notification.notification"
       (close$)="onClose(i)"></app-notification>
-  </ng-container>
+
+  }
 
 </div>

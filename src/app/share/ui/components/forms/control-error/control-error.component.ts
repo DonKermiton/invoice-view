@@ -8,14 +8,14 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-control-error',
   templateUrl: './control-error.component.html',
   styleUrls: ['./control-error.component.scss'],
   standalone: true,
-  imports: [NgIf],
+  imports: [],
 })
 export class ControlErrorComponent implements OnChanges, OnDestroy {
   @Input({ required: true })

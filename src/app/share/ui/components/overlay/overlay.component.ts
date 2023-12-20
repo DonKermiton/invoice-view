@@ -9,7 +9,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {OverlayAttachDirective} from './overlay-attach.directive';
 import {PortalService} from '../../services/portal/portal.service';
 import {PortalKind} from './overlay.service';

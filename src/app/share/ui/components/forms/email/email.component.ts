@@ -15,8 +15,8 @@ import { ControlErrorComponent } from '@/share/forms/control-error/control-error
     CommonModule,
     InputComponent,
     ReactiveFormsModule,
-    ControlErrorComponent,
-  ],
+    ControlErrorComponent
+],
   templateUrl: './email.component.html',
   styleUrls: ['./email.component.scss'],
   providers: [GET_VALUE_ACCESSOR(EmailComponent)],

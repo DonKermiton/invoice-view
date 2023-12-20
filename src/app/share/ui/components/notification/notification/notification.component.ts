@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   WritableSignal
 } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {Notification, NotificationConfig} from "../utils/notification";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {BehaviorSubject, filter, interval, map, Observable, of, takeWhile, tap, withLatestFrom} from "rxjs";

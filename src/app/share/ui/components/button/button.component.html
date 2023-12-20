@@ -1,4 +1,6 @@
 <button [disabled]="disabled" [type]="type" #button (click)="createRipple($event)">
   <ng-content></ng-content>
-  <app-spinner *ngIf="loading"></app-spinner>
+  @if (loading) {
+<app-spinner></app-spinner>
+}
   {{text}}</button>

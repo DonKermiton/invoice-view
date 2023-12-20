@@ -39,26 +39,32 @@
       class="my-x"
       [style.margin-top]="stepper.isLastIndex() ? '1rem' : '0'"
     >
-      <app-button
+      @if (!stepper.isLastIndex()) {
+<app-button
         class="w-100"
-        *ngIf="!stepper.isLastIndex()"
+       
         (click)="stepper.next()"
         [disabled]="userDataForm.invalid || !userDataForm.touched"
         >{{ "share.button.next" | i18n }}</app-button
       >
-      <app-button
+}
+      @if (stepper.isLastIndex()) {
+<app-button
         class="w-100"
-        *ngIf="stepper.isLastIndex()"
+       
         (click)="stepper.prev()"
         >{{ "share.button.prev" | i18n }}</app-button
       >
-      <app-button
+}
+      @if (companyDataForm.valid && userDataForm.valid) {
+<app-button
         (click)="onFormSubmit()"
-        *ngIf="companyDataForm.valid && userDataForm.valid"
+       
         class="mt-x"
         type="submit"
         >{{ "share.forms.register_user.create_account" | i18n }}</app-button
       >
+}
     </div>
   </app-stepper>
 </div>

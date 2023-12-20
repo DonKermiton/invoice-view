@@ -44,8 +44,8 @@ type LoginForm = {
     ReactiveFormsModule,
     PasswordComponent,
     ButtonComponent,
-    RouterLink,
-  ],
+    RouterLink
+],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

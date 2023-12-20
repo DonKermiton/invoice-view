@@ -1,4 +1,6 @@
 
-<form *ngIf="formGroup" [formGroup]="formGroup" class="login-form">
+@if (formGroup) {
+<form [formGroup]="formGroup" class="login-form">
 
 </form>
+}
