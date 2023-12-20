@@ -24,8 +24,8 @@ import { ControlErrorComponent } from '@/share/forms/control-error/control-error
     CommonModule,
     InputComponent,
     ReactiveFormsModule,
-    ControlErrorComponent
-],
+    ControlErrorComponent,
+  ],
   providers: [GET_VALUE_ACCESSOR(PasswordComponent)],
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.scss'],

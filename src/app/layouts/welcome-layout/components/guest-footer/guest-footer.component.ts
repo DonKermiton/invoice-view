@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './guest-footer.component.html',
-  styleUrls: ['./guest-footer.component.scss']
+  styleUrls: ['./guest-footer.component.scss'],
 })
-export class GuestFooterComponent {
-
-}
+export class GuestFooterComponent {}

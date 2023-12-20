@@ -9,7 +9,6 @@ import {
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-control-error',
   templateUrl: './control-error.component.html',

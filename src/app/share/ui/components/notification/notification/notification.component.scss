@@ -1,7 +1,6 @@
 @import "variables";
 @import "share";
 
-
 :host {
   display: block;
   min-height: 50px;
@@ -10,10 +9,12 @@
   position: absolute;
 
   right: 0;
-  box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.05) 0 6px 24px 0,
+    rgba(0, 0, 0, 0.08) 0 0 0 1px;
 
   border-radius: 4px;
-  transition: .3s;
+  transition: 0.3s;
 
   .wrapper {
     position: relative;
@@ -47,5 +48,4 @@
     background-color: black;
     transition: 1s linear;
   }
-
 }

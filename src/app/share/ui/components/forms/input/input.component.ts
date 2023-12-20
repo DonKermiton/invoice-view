@@ -27,8 +27,8 @@ import { ControlErrorComponent } from '../control-error/control-error.component'
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ControlErrorComponent
-],
+    ControlErrorComponent,
+  ],
   templateUrl: './input.component.html',
   providers: [GET_VALUE_ACCESSOR(InputComponent)],
   styleUrls: ['./input.component.scss'],

@@ -1,15 +1,16 @@
 <div class="control-container">
   @if (formControl) {
-<input
+  <input
     [id]="formControlName"
     autocomplete="email"
     class="material-input"
     placeholder="Type email"
-   
     [formControl]="formControl"
   />
-}
-  <label data-testid="email-label" class="input-label" [for]="formControlName">{{label}} {{controlRequired ? '*' : ''}}</label>
+  }
+  <label data-testid="email-label" class="input-label" [for]="formControlName"
+    >{{ label }} {{ controlRequired ? "*" : "" }}</label
+  >
   <app-control-error
     [control]="formControl!"
     [controlName]="formControlName! || 'control'"

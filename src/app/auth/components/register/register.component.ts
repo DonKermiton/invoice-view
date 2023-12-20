@@ -55,8 +55,8 @@ import {
     EmailComponent,
     PasswordComponent,
     InputComponent,
-    JsonPipe
-],
+    JsonPipe,
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

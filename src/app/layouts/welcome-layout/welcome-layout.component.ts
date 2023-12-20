@@ -20,8 +20,8 @@ import { GuestNavComponent } from './components/guest-nav/guest-nav.component';
     CommonModule,
     RouterOutlet,
     GuestNavComponent,
-    GuestFooterComponent
-],
+    GuestFooterComponent,
+  ],
   templateUrl: './welcome-layout.component.html',
   styleUrls: ['./welcome-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -12,8 +12,10 @@ import { OverlayControl } from 'src/app/share/ui/components/overlay/overlay.comp
   styleUrls: ['./sidemenu.component.scss'],
   animations: [Animations.fromRight],
 })
-export class SidemenuComponent extends OverlayControl implements OnInit, OnDestroy {
-
+export class SidemenuComponent
+  extends OverlayControl
+  implements OnInit, OnDestroy
+{
   @HostBinding('@fromRight')
   public animateOnEnter = null;
 
@@ -22,6 +24,6 @@ export class SidemenuComponent extends OverlayControl implements OnInit, OnDestr
   }
 
   public ngOnDestroy(): void {
-    console.log('from ngOnDestroy')
+    console.log('from ngOnDestroy');
   }
 }

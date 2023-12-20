@@ -7,25 +7,28 @@ import {
   signal,
   Signal,
   ViewChildren,
-  WritableSignal
+  WritableSignal,
 } from '@angular/core';
-import {OverlayControl} from '../overlay/overlay.component';
-import {NotificationComponent} from "./notification/notification.component";
-import {Notification} from "./utils/notification";
-import {NotificationDimensionDirective} from './utils/notification-dimension.directive';
+import { OverlayControl } from '../overlay/overlay.component';
+import { NotificationComponent } from './notification/notification.component';
+import { Notification } from './utils/notification';
+import { NotificationDimensionDirective } from './utils/notification-dimension.directive';
 
 export type NotificationDimensionChangeEvent = {
-  index: number, newHeight: number
-}
+  index: number;
+  newHeight: number;
+};
 
 export type NotificationPlace = {
   height: number;
   top: number;
-  notification: Notification
-}
+  notification: Notification;
+};
 
 class NotificationHeightConverter {
-  private notificationPosition: WritableSignal<NotificationPlace[]> = signal<NotificationPlace[]>([]);
+  private notificationPosition: WritableSignal<NotificationPlace[]> = signal<
+    NotificationPlace[]
+  >([]);
 
   public getNotifications(): Signal<NotificationPlace[]> {
     return this.notificationPosition;
@@ -33,8 +36,10 @@ class NotificationHeightConverter {
 
   public addNewNotification(record: Omit<NotificationPlace, 'top'>): void {
     const length = this.notificationPosition().length;
-    this.notificationPosition.update(notifications => [...notifications,
-      {...record, top: this.calculatePosition(length)}]);
+    this.notificationPosition.update((notifications) => [
+      ...notifications,
+      { ...record, top: this.calculatePosition(length) },
+    ]);
   }
 
   public getByIndex(index: number): NotificationPlace | null {
@@ -42,8 +47,9 @@ class NotificationHeightConverter {
   }
 
   public deleteByIndex(index: number): void {
-    this.notificationPosition.update(notifications =>
-      notifications.filter((_, i) => i !== index));
+    this.notificationPosition.update((notifications) =>
+      notifications.filter((_, i) => i !== index),
+    );
     this.updateManyPositions(index);
   }
 
@@ -51,30 +57,27 @@ class NotificationHeightConverter {
     this.notificationPosition.update((notifications: NotificationPlace[]) => {
       notifications[index].height = newHeight;
       return notifications;
-    })
+    });
 
     this.updateManyPositions(index);
   }
 
   private updateManyPositions(fromIndex: number): void {
-    this.notificationPosition.update(notifications => {
-
+    this.notificationPosition.update((notifications) => {
       for (let i = fromIndex; i < this.notificationPosition().length; i++) {
         this.notificationPosition()[i].top = this.calculatePosition(i);
       }
 
       return notifications;
-    })
+    });
   }
 
   private calculatePosition(index: number): number {
-    if(index === 0) {
+    if (index === 0) {
       return 0;
     }
 
-
-    const {top, height} = this.getByIndex(index - 1)!;
-
+    const { top, height } = this.getByIndex(index - 1)!;
 
     return top + height + 20;
   }
@@ -83,35 +86,46 @@ class NotificationHeightConverter {
 @Component({
   selector: 'app-notification-wrapper',
   standalone: true,
-  imports: [CommonModule, NotificationComponent, NotificationDimensionDirective],
+  imports: [
+    CommonModule,
+    NotificationComponent,
+    NotificationDimensionDirective,
+  ],
   templateUrl: './notification-wrapper.component.html',
   styleUrl: './notification-wrapper.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NotificationHeightConverter,
-    }
-  ]
+    },
+  ],
 })
 export class NotificationWrapperComponent extends OverlayControl {
-
   @ViewChildren(NotificationDimensionDirective)
-  public notificationsComponents: QueryList<NotificationDimensionDirective> | null = null;
+  public notificationsComponents: QueryList<NotificationDimensionDirective> | null =
+    null;
 
-  public notificationHeightConverter: NotificationHeightConverter = inject(NotificationHeightConverter);
-  public notifications: Signal<NotificationPlace[]> = this.notificationHeightConverter.getNotifications()
+  public notificationHeightConverter: NotificationHeightConverter = inject(
+    NotificationHeightConverter,
+  );
+  public notifications: Signal<NotificationPlace[]> =
+    this.notificationHeightConverter.getNotifications();
 
   public onClose(index: number): void {
     this.notificationHeightConverter.deleteByIndex(index);
   }
 
   public attachNew(notification: Notification): void {
-    this.notificationHeightConverter.addNewNotification({height: 60, notification})
+    this.notificationHeightConverter.addNewNotification({
+      height: 60,
+      notification,
+    });
   }
 
   public notificationHeightChanged($event: NotificationDimensionChangeEvent) {
-    this.notificationHeightConverter.updateNotificationHeight($event.index, $event.newHeight);
+    this.notificationHeightConverter.updateNotificationHeight(
+      $event.index,
+      $event.newHeight,
+    );
   }
-
 }
-

@@ -4,11 +4,9 @@ import {
   FormControl,
   FormGroupDirective,
   NG_VALUE_ACCESSOR,
-  ValidatorFn,
 } from '@angular/forms';
 import {
   AfterViewInit,
-  Attribute,
   ChangeDetectorRef,
   Directive,
   ElementRef,

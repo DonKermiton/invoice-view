@@ -7,9 +7,13 @@
       </button>
     </div>
   </div>
-  <small style="padding: 5px 10px 5px 10px;
-  display: block;" [innerHTML]="config.text" (click)="test()"> </small>
+  <small
+    style="padding: 5px 10px 5px 10px; display: block"
+    [innerHTML]="config.text"
+    (click)="test()"
+  >
+  </small>
   @if (config.timeout) {
-    <div class="progress-bar" [style.width]="progressBar()"></div>
+  <div class="progress-bar" [style.width]="progressBar()"></div>
   }
 </div>

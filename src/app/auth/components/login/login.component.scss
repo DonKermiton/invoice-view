@@ -11,8 +11,10 @@ fieldset {
   min-height: 500px;
   height: 100%;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 10px 36px 0, rgba(0, 0, 0, 0.06) 0 0 0 1px;
-  transition: .3s;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0 10px 36px 0,
+    rgba(0, 0, 0, 0.06) 0 0 0 1px;
+  transition: 0.3s;
 
   h2 {
     padding: 1rem 0;
@@ -29,14 +31,13 @@ fieldset {
     color: $fifth;
     width: 100px;
     text-align: center;
-
   }
 }
 
 .container {
   width: 400px;
 
-  margin: auto auto
+  margin: auto auto;
 }
 
 .form-container {
@@ -65,9 +66,7 @@ fieldset {
   border-bottom: 5px solid red;
 }
 
-
-
-@media(min-width: 1600px) {
+@media (min-width: 1600px) {
   .container {
     width: 500px;
   }

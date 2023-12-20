@@ -1,6 +1,5 @@
 @import "variables";
 
-
 $change_logo_dimensions: 600px;
 
 #logo__container {
@@ -21,7 +20,7 @@ $change_logo_dimensions: 600px;
   display: none;
 }
 
-@container(max-width: $change_logo_dimensions) {
+@container (max-width: $change_logo_dimensions) {
   #small {
     display: inline;
   }
@@ -31,7 +30,7 @@ $change_logo_dimensions: 600px;
   }
 }
 
-@container(min-width: $change_logo_dimensions) {
+@container (min-width: $change_logo_dimensions) {
   #small {
     display: none;
   }
@@ -39,5 +38,4 @@ $change_logo_dimensions: 600px;
   #big {
     display: inline;
   }
-
 }

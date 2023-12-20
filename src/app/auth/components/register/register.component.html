@@ -23,7 +23,11 @@
         />
       </form>
     </app-step>
-    <app-step style="height: 300px" header="company" data-testid="company-step-test">
+    <app-step
+      style="height: 300px"
+      header="company"
+      data-testid="company-step-test"
+    >
       <form [formGroup]="companyDataForm" (ngSubmit)="onFormSubmit()">
         <app-input
           label="Company name"
@@ -40,31 +44,21 @@
       [style.margin-top]="stepper.isLastIndex() ? '1rem' : '0'"
     >
       @if (!stepper.isLastIndex()) {
-<app-button
+      <app-button
         class="w-100"
-       
         (click)="stepper.next()"
         [disabled]="userDataForm.invalid || !userDataForm.touched"
         >{{ "share.button.next" | i18n }}</app-button
       >
-}
-      @if (stepper.isLastIndex()) {
-<app-button
-        class="w-100"
-       
-        (click)="stepper.prev()"
-        >{{ "share.button.prev" | i18n }}</app-button
-      >
-}
-      @if (companyDataForm.valid && userDataForm.valid) {
-<app-button
-        (click)="onFormSubmit()"
-       
-        class="mt-x"
-        type="submit"
-        >{{ "share.forms.register_user.create_account" | i18n }}</app-button
-      >
-}
+      } @if (stepper.isLastIndex()) {
+      <app-button class="w-100" (click)="stepper.prev()">{{
+        "share.button.prev" | i18n
+      }}</app-button>
+      } @if (companyDataForm.valid && userDataForm.valid) {
+      <app-button (click)="onFormSubmit()" class="mt-x" type="submit">{{
+        "share.forms.register_user.create_account" | i18n
+      }}</app-button>
+      }
     </div>
   </app-stepper>
 </div>

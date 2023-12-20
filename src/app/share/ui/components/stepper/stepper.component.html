@@ -1,46 +1,36 @@
 <div class="stepper-header">
-  @for (
-      step of steps; track 
-      step; let last = $last; let first = $first; let index = $index) {
-  
-    <div class="step">
-      <button
-        (click)="selectStep(index)"
-        class="step-btn transparent-btn white-space-nowrap"
+  @for ( step of steps; track step; let last = $last; let first = $first; let
+  index = $index) {
+
+  <div class="step">
+    <button
+      (click)="selectStep(index)"
+      class="step-btn transparent-btn white-space-nowrap"
+    >
+      <span
+        class="index-indicator"
+        [class.active]="selectedStep()?.index === index"
       >
-        <span
-          class="index-indicator"
-          [class.active]="selectedStep()?.index === index"
-        >
-          {{ index + 1 }}</span
-        >
-        {{ step.header }}
-      </button>
-    </div>
-    @if (!last) {
-<div layout-horizontal align-items-center class="w-100">
-      <app-divider />
-    </div>
-}
-  
-}
+        {{ index + 1 }}</span
+      >
+      {{ step.header }}
+    </button>
+  </div>
+  @if (!last) {
+  <div layout-horizontal align-items-center class="w-100">
+    <app-divider />
+  </div>
+  } }
 </div>
 
-<div
-  class="content"
-  #content
->
+<div class="content" #content>
   @if ((selectedStep()?.template)!.template!; as template) {
 
-    <ng-container *ngTemplateOutlet="template"></ng-container>
-  
-}
+  <ng-container *ngTemplateOutlet="template"></ng-container>
+
+  }
 </div>
 
 <div class="mt-x">
-  <ng-content select="[footer]">
-
-  </ng-content>
+  <ng-content select="[footer]"> </ng-content>
 </div>
-
-

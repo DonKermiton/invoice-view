@@ -10,11 +10,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {OverlayAttachDirective} from './overlay-attach.directive';
-import {PortalService} from '../../services/portal/portal.service';
-import {PortalKind} from './overlay.service';
-import {OverlayTypes} from './index';
-import {Animations} from '@/share/animations/index';
+import { OverlayAttachDirective } from './overlay-attach.directive';
+import { PortalService } from '../../services/portal/portal.service';
+import { PortalKind } from './overlay.service';
+import { OverlayTypes } from './index';
+import { Animations } from '@/share/animations/index';
 
 @Component({
   selector: 'app-overlay',
@@ -40,7 +40,7 @@ export class OverlayComponent {
   public width = '100%';
 
   public config: OverlayTypes.Component | OverlayTypes.Template | null = null;
-  @ViewChild(OverlayAttachDirective, {static: true, read: ViewContainerRef})
+  @ViewChild(OverlayAttachDirective, { static: true, read: ViewContainerRef })
   viewHost!: ViewContainerRef;
   protected showBackdropForEl: ComponentRef<any> | null = null;
   private portalService: PortalService;
@@ -76,7 +76,9 @@ export class OverlayComponent {
   }
 
   private createComponent<T>(config: PortalKind): ComponentRef<T> {
-    const ref = this.viewHost.createComponent<any>((config as OverlayTypes.Component).component);
+    const ref = this.viewHost.createComponent<any>(
+      (config as OverlayTypes.Component).component,
+    );
 
     if (config.showBackdrop) {
       this.showBackdropForEl = ref;
@@ -85,7 +87,7 @@ export class OverlayComponent {
     if (config.closeOnBackdropClick) {
       this.showBackdropForEl?.onDestroy(() => {
         this.showBackdropForEl = null;
-      })
+      });
     }
 
     (ref.instance as OverlayControl).setViewInstance(ref);
@@ -117,12 +119,11 @@ export class OverlayControl {
     this.viewInstance = viewInstance;
 
     this.viewInstance.onDestroy(() => {
-      console.log('teraz')
-    })
+      console.log('teraz');
+    });
   }
 
   public destroy(): void {
     this.viewInstance.destroy();
   }
 }
-

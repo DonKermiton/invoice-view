@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss']
+  styleUrls: ['./confirm.component.scss'],
 })
-export class ConfirmComponent {
-
-}
+export class ConfirmComponent {}

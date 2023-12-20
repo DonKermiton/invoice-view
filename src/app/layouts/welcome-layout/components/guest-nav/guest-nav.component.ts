@@ -23,7 +23,7 @@ export class GuestNavComponent {
       component: SidemenuComponent,
       width: '80%',
       showBackdrop: true,
-      closeOnBackdropClick: true
+      closeOnBackdropClick: true,
     });
   }
 }

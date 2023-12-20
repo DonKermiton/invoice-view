@@ -14,12 +14,13 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./auth/auth.routes').then((e) => e.AuthRoutes),
-    component: WelcomeLayoutComponent
+    component: WelcomeLayoutComponent,
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.routes').then((f) => f.DashboardRoutes),
-    component: LoggedLayoutComponent
+    loadChildren: () =>
+      import('./dashboard/dashboard.routes').then((f) => f.DashboardRoutes),
+    component: LoggedLayoutComponent,
   },
   {
     path: '**',
