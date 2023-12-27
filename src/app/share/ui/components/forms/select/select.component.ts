@@ -1,7 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostListener,
+  effect,
+  Injector,
   Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,7 +28,10 @@ export class SelectComponent extends GenericControlValueAcc {
   @Input()
   public label = 'Email';
 
-  constructor(private overlay: OverlayService) {
+  constructor(
+    private overlay: OverlayService,
+    private injector: Injector,
+  ) {
     super();
   }
 
@@ -44,8 +48,21 @@ export class SelectComponent extends GenericControlValueAcc {
       component: SelectDropdownComponent,
     });
 
+    if (this.formControl?.value) {
+      component?.instance.selectedElement$.set(this.formControl.value);
+    }
+
     if (component) {
       component.instance.changeSelectPosition(rect);
+      effect(
+        () => {
+          const value = component.instance.selectedElement$();
+          this.formControl!.patchValue(value, {
+            emitEvent: false,
+          });
+        },
+        { injector: this.injector },
+      );
     }
   }
 }

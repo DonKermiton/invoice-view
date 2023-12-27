@@ -57,7 +57,7 @@ export class GenericControlValueAcc<T = string>
   }
 
   writeValue(value: T) {
-    this.formControl?.patchValue(value);
+    this.changed(value);
   }
 
   registerOnChange(fn: (value: T) => void) {

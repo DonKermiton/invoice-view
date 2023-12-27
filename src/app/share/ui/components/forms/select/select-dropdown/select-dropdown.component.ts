@@ -14,7 +14,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { OverlayControl } from '../../../overlay/overlay.component';
 import { asyncScheduler } from 'rxjs';
-import { SelectDefaultItemComponent } from '@/share/forms/select/select-dropdown/select-default-item/select-default-item.component';
+import {
+  DefaultSelectItemType,
+  SelectDefaultItemComponent,
+} from '@/share/forms/select/select-dropdown/select-default-item/select-default-item.component';
 
 @Component({
   selector: 'app-select-dropdown',
@@ -28,7 +31,11 @@ export class SelectDropdownComponent
   extends OverlayControl
   implements AfterViewInit
 {
-  public items: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  public items: DefaultSelectItemType<string>[] = [
+    { key: 'first test element', value: 'some value' },
+    { key: 'second test element', value: 'some value' },
+    { key: 'third test element', value: 'some value' },
+  ];
 
   @HostBinding('style.top')
   public top = '0px';
@@ -74,8 +81,8 @@ export class SelectDropdownComponent
     this.cdRef.markForCheck();
   }
 
-  public itemSelected(item: number): void {
-    console.log(item);
+  public itemSelected(item: DefaultSelectItemType<string>): void {
+    this.selectedElement$.set(item.key);
   }
 
   private closeSelect(): void {

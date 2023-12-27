@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  DestroyRef,
   HostBinding,
-  inject,
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
