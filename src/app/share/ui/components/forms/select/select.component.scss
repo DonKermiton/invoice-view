@@ -16,12 +16,15 @@
   right: 6px;
 
   transition: .3s;
-  transform-origin: center 6px;
+  transform-origin: center;
 
-
-  &.rotate {
-    transform: rotate(180deg);
+  span {
+    display: block;
+    transition: .3s;
   }
 }
 
+.rotate {
+  transform: rotate(180deg);
+}
 

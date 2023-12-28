@@ -15,9 +15,9 @@
       >{{ label }} {{ controlRequired ? "*" : "" }}</label
     >
 
-    <span [class.rotate]="!!component" class="caret material-symbols-outlined">
-      arrow_drop_down
-  </span>
+    <span  class="caret">
+      <span [class.rotate]="!!component" class="material-symbols-outlined"> arrow_drop_down </span>
+    </span>
   </div>
 
   <app-control-error
