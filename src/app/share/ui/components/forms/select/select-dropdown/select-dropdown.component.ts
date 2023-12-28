@@ -18,6 +18,7 @@ import {
   DefaultSelectItemType,
   SelectDefaultItemComponent,
 } from '@/share/forms/select/select-dropdown/select-default-item/select-default-item.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-select-dropdown',
@@ -26,6 +27,36 @@ import {
   templateUrl: './select-dropdown.component.html',
   styleUrl: './select-dropdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('animateHeightOnEnter', [
+      transition(':enter', [
+        style({
+          height: 0,
+          overflow: 'hidden',
+        }),
+        animate(
+          '.3s ease-out',
+          style({
+            height: '*',
+          }),
+        ),
+      ]),
+    ]),
+    trigger('animateHeightOnLeave', [
+      transition(':leave', [
+        style({
+          height: '*',
+          overflow: 'hidden',
+        }),
+        animate(
+          '.3s ease-out',
+          style({
+            height: 0,
+          }),
+        ),
+      ]),
+    ]),
+  ],
 })
 export class SelectDropdownComponent
   extends OverlayControl
@@ -35,10 +66,19 @@ export class SelectDropdownComponent
     { key: 'first test element', value: 'some value' },
     { key: 'second test element', value: 'some value' },
     { key: 'third test element', value: 'some value' },
+    { key: 'third test element', value: 'some value' },
+    { key: 'third test element', value: 'some value' },
+    { key: 'third test element', value: 'some value' },
   ];
 
   @HostBinding('style.top')
   public top = '0px';
+
+  @HostBinding('@animateHeightOnEnter')
+  public animateOnEnter = true;
+
+  @HostBinding('@animateHeightOnLeave')
+  public animateOnLeave = true;
 
   public selectedElement$: WritableSignal<any> = signal(null);
 
@@ -82,7 +122,7 @@ export class SelectDropdownComponent
   }
 
   public itemSelected(item: DefaultSelectItemType<string>): void {
-    this.selectedElement$.set(item.key);
+    this.selectedElement$.set(item.value);
   }
 
   private closeSelect(): void {

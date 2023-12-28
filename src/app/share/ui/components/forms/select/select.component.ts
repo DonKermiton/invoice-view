@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ComponentRef,
   effect,
   Injector,
   Input,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -27,6 +30,8 @@ import { SelectDropdownComponent } from '@/share/forms/select/select-dropdown/se
 export class SelectComponent extends GenericControlValueAcc {
   @Input()
   public label = 'Email';
+  public component: ComponentRef<SelectDropdownComponent> | null = null;
+  public isFocused$: WritableSignal<boolean> = signal(false);
 
   constructor(
     private overlay: OverlayService,
@@ -36,6 +41,11 @@ export class SelectComponent extends GenericControlValueAcc {
   }
 
   public onInputClick($event: MouseEvent) {
+    if (this.component) {
+      this.component.instance.destroy();
+      return;
+    }
+
     const rect: DOMRect = (
       $event.target as HTMLElement
     ).getBoundingClientRect();
@@ -44,25 +54,43 @@ export class SelectComponent extends GenericControlValueAcc {
   }
 
   private openOverlay(rect: DOMRect): void {
-    const component = this.overlay.openOverlay<SelectDropdownComponent>({
-      component: SelectDropdownComponent,
-    });
+    this.component =
+      this.overlay.openOverlay<SelectDropdownComponent>({
+        component: SelectDropdownComponent,
+      }) || null;
 
     if (this.formControl?.value) {
-      component?.instance.selectedElement$.set(this.formControl.value);
+      this.component?.instance.selectedElement$.set(this.formControl.value);
     }
 
-    if (component) {
-      component.instance.changeSelectPosition(rect);
+    if (this.component) {
+      this.component.instance.changeSelectPosition(rect);
       effect(
         () => {
-          const value = component.instance.selectedElement$();
-          this.formControl!.patchValue(value, {
-            emitEvent: false,
-          });
+          const value = this.component?.instance.selectedElement$();
+
+          const prevValue = this.value;
+
+          if (value != prevValue) {
+            this.value = value;
+            this.component?.instance.destroy();
+          }
         },
         { injector: this.injector },
       );
     }
+
+    this.component?.instance.viewInstance.onDestroy(() => {
+      this.component = null;
+      this.cdRef.detectChanges();
+    });
+  }
+
+  public onFocusIn(): void {
+    this.isFocused$.set(true);
+  }
+
+  public onBlur(): void {
+    this.isFocused$.set(false);
   }
 }

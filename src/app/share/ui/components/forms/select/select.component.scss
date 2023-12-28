@@ -1,1 +1,27 @@
 @import "forms";
+
+.control-container {
+  position: relative;
+}
+
+.input-container {
+  position: relative;
+  height: 32px;
+}
+
+.caret {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 6px;
+
+  transition: .3s;
+  transform-origin: center 6px;
+
+
+  &.rotate {
+    transform: rotate(180deg);
+  }
+}
+
+

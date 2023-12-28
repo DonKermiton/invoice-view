@@ -1,21 +1,28 @@
-<div class="control-container">
+<div class="control-container" [class.input-focused]="isFocused$()">
   @if (formControl) {
-  <input
-    [id]="formControlName"
-    class="material-input"
-    placeholder="todo:: add placeholder"
-    [formControl]="formControl"
-    readonly
-    (click)="onInputClick($event)"
-  />
-
-    <label data-testid="email-label" class="input-label" [for]="formControlName"
-    >{{ label }} {{ controlRequired ? "*" : "" }}</label
-    >
-    <app-control-error
-      [control]="formControl!"
-      [controlName]="formControlName! || 'control'"
+  <div class="input-container">
+    <input
+      [id]="formControlName"
+      class="material-input"
+      placeholder="todo:: add placeholder"
+      [formControl]="formControl"
+      readonly
+      (click)="onInputClick($event)"
+      (focus)="onFocusIn()"
+      (blur)="onBlur()"
     />
-  }
+    <label data-testid="email-label" class="input-label" [for]="formControlName"
+      >{{ label }} {{ controlRequired ? "*" : "" }}</label
+    >
 
+    <span [class.rotate]="!!component" class="caret material-symbols-outlined">
+      arrow_drop_down
+  </span>
+  </div>
+
+  <app-control-error
+    [control]="formControl!"
+    [controlName]="formControlName! || 'control'"
+  />
+  }
 </div>

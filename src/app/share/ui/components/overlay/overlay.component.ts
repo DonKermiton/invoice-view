@@ -113,14 +113,12 @@ export class OverlayControl {
   /*
     reference to view in overlay component
   */
-  private viewInstance!: ComponentRef<any>;
+  public viewInstance!: ComponentRef<any>;
 
   public setViewInstance(viewInstance: ComponentRef<any>): void {
     this.viewInstance = viewInstance;
 
-    this.viewInstance.onDestroy(() => {
-      console.log('teraz');
-    });
+    this.viewInstance.onDestroy(() => ({}));
   }
 
   public destroy(): void {
