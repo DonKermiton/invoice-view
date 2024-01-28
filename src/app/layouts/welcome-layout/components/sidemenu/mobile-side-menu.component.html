@@ -1,0 +1,8 @@
+<button (click)="close()">close</button>
+
+@for (link of links; track link) {
+  <div>
+    <span (click)="route(link)">{{link.key}}</span>
+  </div>
+}
+

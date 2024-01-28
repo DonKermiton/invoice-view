@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  DestroyRef,
   HostBinding,
-  inject,
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -28,6 +27,8 @@ import {
   userPasswordValidators,
   userValidatorsErrorFields,
 } from '../../share/user-password.utils';
+import { SelectComponent } from '@/share/forms/select/select.component';
+import {AuthService} from './../../services/auth.service';
 
 type LoginForm = {
   email: FormControl<string>;
@@ -45,6 +46,7 @@ type LoginForm = {
     PasswordComponent,
     ButtonComponent,
     RouterLink,
+    SelectComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -67,10 +69,12 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
     this.initForm();
+    this.authService.test().subscribe(console.log);
   }
 
   public onFormSubmit(): void {

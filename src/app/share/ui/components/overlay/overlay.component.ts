@@ -15,6 +15,7 @@ import { PortalService } from '../../services/portal/portal.service';
 import { PortalKind } from './overlay.service';
 import { OverlayTypes } from './index';
 import { Animations } from '@/share/animations/index';
+import { OverlayControl } from './overlayControl';
 
 @Component({
   selector: 'app-overlay',
@@ -80,6 +81,12 @@ export class OverlayComponent {
       (config as OverlayTypes.Component).component,
     );
 
+    console.log(config);
+
+    if (config.data) {
+      ref.instance.data = config.data;
+    }
+
     if (config.showBackdrop) {
       this.showBackdropForEl = ref;
     }
@@ -104,26 +111,4 @@ export class OverlayComponent {
   // private createTemplate(template: TemplateRef<any>): void {
   //   this.viewHost.createEmbeddedView(template);
   // }
-}
-
-export class OverlayControl {
-  // todo:: add template
-
-  public closeOnBackdropClick = false;
-  /*
-    reference to view in overlay component
-  */
-  private viewInstance!: ComponentRef<any>;
-
-  public setViewInstance(viewInstance: ComponentRef<any>): void {
-    this.viewInstance = viewInstance;
-
-    this.viewInstance.onDestroy(() => {
-      console.log('teraz');
-    });
-  }
-
-  public destroy(): void {
-    this.viewInstance.destroy();
-  }
 }

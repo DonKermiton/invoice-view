@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LogoComponent } from '../../../../share/ui/components/logo/logo.component';
 import { BurgerLogoComponent } from '../../../../share/ui/components/burger-logo/burger-logo.component';
 import { OverlayService } from '../../../../share/ui/components/overlay/overlay.service';
-import { SidemenuComponent } from '../sidemenu/sidemenu.component';
+import { MobileSideMenuComponent } from '../sidemenu/mobile-side-menu.component';
 
 @Component({
   selector: 'app-guest-nav',
@@ -20,7 +20,7 @@ export class GuestNavComponent {
 
   public openSidebar(): void {
     const portalRef = this.overlayService.openOverlay({
-      component: SidemenuComponent,
+      component: MobileSideMenuComponent,
       width: '80%',
       showBackdrop: true,
       closeOnBackdropClick: true,
