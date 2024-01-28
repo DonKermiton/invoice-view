@@ -11,4 +11,5 @@ import { NotificationService } from '../../../share/ui/services/notification.ser
 })
 export class DashboardComponent {
   constructor(public notificationService: NotificationService) {}
+
 }

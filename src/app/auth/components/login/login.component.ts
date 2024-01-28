@@ -28,6 +28,7 @@ import {
   userValidatorsErrorFields,
 } from '../../share/user-password.utils';
 import { SelectComponent } from '@/share/forms/select/select.component';
+import {AuthService} from './../../services/auth.service';
 
 type LoginForm = {
   email: FormControl<string>;
@@ -68,10 +69,12 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
     this.initForm();
+    this.authService.test().subscribe(console.log);
   }
 
   public onFormSubmit(): void {

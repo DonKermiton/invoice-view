@@ -42,7 +42,7 @@ export class SelectComponent extends GenericControlValueAcc {
 
   public onInputClick($event: MouseEvent) {
     if (this.component) {
-      this.component.instance.destroy();
+      this.component.instance.close();
       return;
     }
 
@@ -73,7 +73,7 @@ export class SelectComponent extends GenericControlValueAcc {
 
           if (value != prevValue) {
             this.value = value;
-            this.component?.instance.destroy();
+            this.component?.instance.close();
           }
         },
         { injector: this.injector },

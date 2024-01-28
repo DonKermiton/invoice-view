@@ -17,4 +17,5 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
     this.store.select(selectAuthState).subscribe((user) => console.log(user));
   }
+
 }

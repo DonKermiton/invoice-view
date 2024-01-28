@@ -5,6 +5,7 @@ interface Default {
   closeOnBackdropClick?: boolean;
   width?: string;
   showBackdrop?: boolean;
+  data?: object;
 }
 
 export interface Component extends Default {

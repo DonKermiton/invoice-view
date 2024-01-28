@@ -53,11 +53,12 @@ export class GenericControlValueAcc<T = string>
     if (this.value !== value) {
       this.formControl?.patchValue(value);
       this.changed(value);
+      this.touched();
     }
   }
 
   writeValue(value: T) {
-    this.changed(value);
+    this.value = value;
   }
 
   registerOnChange(fn: (value: T) => void) {
@@ -99,7 +100,7 @@ export class GenericControlValueAcc<T = string>
       this.elementRef.nativeElement.getAttribute('formControlName') || null;
   }
 
-  private touched: (value: T) => void = () => ({});
+  private touched: () => void = () => ({});
 
   private changed: (value: T) => void = () => ({});
 }

@@ -12,13 +12,13 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OverlayControl } from '../../../overlay/overlay.component';
 import { asyncScheduler } from 'rxjs';
 import {
   DefaultSelectItemType,
   SelectDefaultItemComponent,
 } from '@/share/forms/select/select-dropdown/select-default-item/select-default-item.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { OverlayControl } from '../../../overlay/overlayControl';
 
 @Component({
   selector: 'app-select-dropdown',
@@ -126,6 +126,6 @@ export class SelectDropdownComponent
   }
 
   private closeSelect(): void {
-    this.destroy();
+    this.close();
   }
 }

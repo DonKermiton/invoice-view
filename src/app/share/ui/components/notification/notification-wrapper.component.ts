@@ -9,10 +9,10 @@ import {
   ViewChildren,
   WritableSignal,
 } from '@angular/core';
-import { OverlayControl } from '../overlay/overlay.component';
 import { NotificationComponent } from './notification/notification.component';
 import { Notification } from './utils/notification';
 import { NotificationDimensionDirective } from './utils/notification-dimension.directive';
+import { OverlayControl } from '../overlay/overlayControl';
 
 export type NotificationDimensionChangeEvent = {
   index: number;
