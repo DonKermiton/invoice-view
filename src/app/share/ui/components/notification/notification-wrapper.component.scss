@@ -2,5 +2,14 @@
   display: block;
   position: absolute;
   right: 24px;
-  top: 5%;
+  left: 24px;
+  top: 70%;
+}
+
+@media screen and (min-width: 1200px){
+    :host {
+      top: 5%;
+      left: initial;
+      right: 450px;
+    }
 }
