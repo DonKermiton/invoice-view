@@ -9,3 +9,11 @@
   background-color: $primary;
   color: white;
 }
+
+.wrapper {
+  display: flex;
+  justify-content: end;
+  padding-right: .4rem;
+  height: 100%;
+  align-items: center;
+}
