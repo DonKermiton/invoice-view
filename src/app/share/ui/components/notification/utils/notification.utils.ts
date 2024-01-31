@@ -13,21 +13,22 @@ export type NotificationPlace = {
 };
 
 abstract class ANotificationHeightConverter {
-  constructor(protected currentNotification: CurrentNotifications) {}
+  constructor(protected currentNotifications: CurrentNotifications) {}
 
   abstract calculatePosition(index: number): number;
   abstract updateManyPositions(fromIndex: number): void;
+  abstract addNewNotification(record: Omit<NotificationPlace, 'top'>): void;
 }
 
-class DesktopNotification extends ANotificationHeightConverter {
+class MobileNotification extends ANotificationHeightConverter {
   public updateManyPositions(fromIndex: number): void {
-    this.currentNotification.notificationPosition.update((notifications) => {
+    this.currentNotifications.notificationPosition.update((notifications) => {
       for (
         let i = fromIndex;
-        i < this.currentNotification.notificationPosition().length;
+        i < this.currentNotifications.notificationPosition().length;
         i++
       ) {
-        this.currentNotification.notificationPosition()[i].top =
+        this.currentNotifications.notificationPosition()[i].top =
           this.calculatePosition(i);
       }
 
@@ -40,9 +41,52 @@ class DesktopNotification extends ANotificationHeightConverter {
       return 0;
     }
 
-    const { top, height } = this.currentNotification.getByIndex(index - 1)!;
+    const { top, height } = this.currentNotifications.getByIndex(index - 1)!;
+
+    return top - height - 20;
+  }
+
+  public addNewNotification(record: Omit<NotificationPlace, 'top'>): void {
+    const length = this.currentNotifications.getByIndex(0)?.top || 0;
+    this.currentNotifications.notificationPosition.update((notifications) => [
+      ...notifications,
+      { ...record, top: this.calculatePosition(length) },
+    ]);
+  }
+}
+
+class DesktopNotification extends ANotificationHeightConverter {
+  public updateManyPositions(fromIndex: number): void {
+    this.currentNotifications.notificationPosition.update((notifications) => {
+      for (
+        let i = fromIndex;
+        i < this.currentNotifications.notificationPosition().length;
+        i++
+      ) {
+        this.currentNotifications.notificationPosition()[i].top =
+          this.calculatePosition(i);
+      }
+
+      return notifications;
+    });
+  }
+
+  public calculatePosition(index: number): number {
+    if (index === 0) {
+      return 0;
+    }
+
+    const { top, height } = this.currentNotifications.getByIndex(index - 1)!;
 
     return top + height + 20;
+  }
+
+  public addNewNotification(record: Omit<NotificationPlace, 'top'>): void {
+    const length = this.currentNotifications.getLength();
+    this.currentNotifications.notificationPosition.update((notifications) => [
+      ...notifications,
+      { ...record, top: this.calculatePosition(length) },
+    ]);
   }
 }
 
@@ -64,18 +108,15 @@ export class NotificationHeightConverter {
   private currentNotifications: CurrentNotifications =
     new CurrentNotifications();
 
-  private currentStrategy = new DesktopNotification(this.currentNotifications);
+  private currentStrategy: ANotificationHeightConverter =
+    new MobileNotification(this.currentNotifications);
 
   public getNotifications(): Signal<NotificationPlace[]> {
     return this.currentNotifications.notificationPosition;
   }
 
   public addNewNotification(record: Omit<NotificationPlace, 'top'>): void {
-    const length = this.currentNotifications.getLength();
-    this.currentNotifications.notificationPosition.update((notifications) => [
-      ...notifications,
-      { ...record, top: this.currentStrategy.calculatePosition(length) },
-    ]);
+    this.currentStrategy.addNewNotification(record);
   }
 
   public deleteByIndex(index: number): void {
