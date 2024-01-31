@@ -13,75 +13,11 @@ import { NotificationComponent } from './notification/notification.component';
 import { Notification } from './utils/notification';
 import { NotificationDimensionDirective } from './utils/notification-dimension.directive';
 import { OverlayControl } from '../overlay/overlayControl';
-
-export type NotificationDimensionChangeEvent = {
-  index: number;
-  newHeight: number;
-};
-
-export type NotificationPlace = {
-  height: number;
-  top: number;
-  notification: Notification;
-};
-
-class NotificationHeightConverter {
-  private notificationPosition: WritableSignal<NotificationPlace[]> = signal<
-    NotificationPlace[]
-  >([]);
-
-  public getNotifications(): Signal<NotificationPlace[]> {
-    return this.notificationPosition;
-  }
-
-  public addNewNotification(record: Omit<NotificationPlace, 'top'>): void {
-    const length = this.notificationPosition().length;
-    this.notificationPosition.update((notifications) => [
-      ...notifications,
-      { ...record, top: this.calculatePosition(length) },
-    ]);
-  }
-
-  public getByIndex(index: number): NotificationPlace | null {
-    return this.notificationPosition()[index] || null;
-  }
-
-  public deleteByIndex(index: number): void {
-    this.notificationPosition.update((notifications) =>
-      notifications.filter((_, i) => i !== index),
-    );
-    this.updateManyPositions(index);
-  }
-
-  public updateNotificationHeight(index: number, newHeight: number): void {
-    this.notificationPosition.update((notifications: NotificationPlace[]) => {
-      notifications[index].height = newHeight;
-      return notifications;
-    });
-
-    this.updateManyPositions(index);
-  }
-
-  private updateManyPositions(fromIndex: number): void {
-    this.notificationPosition.update((notifications) => {
-      for (let i = fromIndex; i < this.notificationPosition().length; i++) {
-        this.notificationPosition()[i].top = this.calculatePosition(i);
-      }
-
-      return notifications;
-    });
-  }
-
-  private calculatePosition(index: number): number {
-    if (index === 0) {
-      return 0;
-    }
-
-    const { top, height } = this.getByIndex(index - 1)!;
-
-    return top + height + 20;
-  }
-}
+import {
+  NotificationDimensionChangeEvent,
+  NotificationHeightConverter,
+  NotificationPlace,
+} from './utils/notification.utils';
 
 @Component({
   selector: 'app-notification-wrapper',
