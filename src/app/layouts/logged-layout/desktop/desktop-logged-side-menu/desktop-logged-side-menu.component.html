@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <h1>logo</h1>
+  <div class="mt-x">
+    <ul>
+      @for (item of sideMenuElements; track item.name) {
+      <li class="sidemenu-item" routerLinkActive="active" [routerLink]="item.path">
+        <span class="material-symbols-outlined"> {{item.icon}} </span>
+        <span class="sidemenu-item-text"> {{item.name}} </span>
+      </li>
+      }
+    </ul>
+  </div>
+  <div>Profile</div>
+</div>

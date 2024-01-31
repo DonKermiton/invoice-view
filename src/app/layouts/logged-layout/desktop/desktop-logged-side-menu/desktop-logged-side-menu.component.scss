@@ -1,0 +1,39 @@
+@import "variables";
+@import "share";
+:host {
+  display: block;
+
+  background-color: $primary;
+  color: white;
+  overflow: hidden;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-rows: 50px 1fr 60px;
+  height: 100%;
+}
+
+.content {
+  overflow: auto;
+}
+
+.sidemenu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+  width: 60px;
+
+  margin: 10px 0;
+
+  border: 1px solid $secondary;
+  font-size: .5rem;
+  cursor: pointer;
+
+  &.active {
+    background-color: $secondary;
+  }
+}

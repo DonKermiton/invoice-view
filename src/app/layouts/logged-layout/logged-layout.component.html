@@ -1,4 +1,14 @@
-<app-layout-logged-top-menu></app-layout-logged-top-menu>
-<div class="main">
-  <router-outlet></router-outlet>
-</div>
+@if (false) {
+  <app-layout-logged-top-menu></app-layout-logged-top-menu>
+  <div class="main">
+    <router-outlet></router-outlet>
+  </div>
+} @else {
+  <div class="desktop-wrapper">
+    <app-desktop-logged-side-menu></app-desktop-logged-side-menu>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+}
+

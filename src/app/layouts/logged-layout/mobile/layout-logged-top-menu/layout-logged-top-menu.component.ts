@@ -1,8 +1,8 @@
 import { Component, ComponentRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OverlayService } from '../../../share/ui/components/overlay/overlay.service';
-import { MobileSideMenuComponent } from '../../welcome-layout/components/sidemenu/mobile-side-menu.component';
-import { BurgerLogoComponent } from '../../../share/ui/components/burger-logo/burger-logo.component';
+import { OverlayService } from '../../../../share/ui/components/overlay/overlay.service';
+import { MobileSideMenuComponent } from '../../../welcome-layout/components/sidemenu/mobile-side-menu.component';
+import { BurgerLogoComponent } from '../../../../share/ui/components/burger-logo/burger-logo.component';
 
 @Component({
   selector: 'app-layout-logged-top-menu',
