@@ -4,20 +4,18 @@ import {
   Component,
   inject,
   QueryList,
-  signal,
   Signal,
   ViewChildren,
-  WritableSignal,
 } from '@angular/core';
 import { NotificationComponent } from './notification/notification.component';
 import { Notification } from './utils/notification';
 import { NotificationDimensionDirective } from './utils/notification-dimension.directive';
 import { OverlayControl } from '../overlay/overlayControl';
+import { NotificationHeightConverter } from './utils/notification.utils';
 import {
   NotificationDimensionChangeEvent,
-  NotificationHeightConverter,
   NotificationPlace,
-} from './utils/notification.utils';
+} from './utils/notification-strategy/notification-template';
 
 @Component({
   selector: 'app-notification-wrapper',

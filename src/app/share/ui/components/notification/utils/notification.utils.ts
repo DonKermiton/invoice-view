@@ -1,27 +1,14 @@
-import { Notification } from './notification';
-import { Signal, signal, WritableSignal } from '@angular/core';
-
-export type NotificationDimensionChangeEvent = {
-  index: number;
-  newHeight: number;
-};
-
-export type NotificationPlace = {
-  height: number;
-  top: number;
-  notification: Notification;
-};
-
-abstract class ANotificationHeightConverter {
-  constructor(protected currentNotifications: CurrentNotifications) {}
-
-  abstract calculatePosition(index: number): number;
-  abstract updateManyPositions(fromIndex: number): void;
-  abstract addNewNotification(record: Omit<NotificationPlace, 'top'>): void;
-}
+import { DestroyRef, inject, Injectable, Signal } from '@angular/core';
+import {
+  ANotificationHeightConverter,
+  CurrentNotifications,
+  NotificationPlace,
+} from './notification-strategy/notification-template';
+import { WindowResizerService } from '../../../../services/Window-resizer.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 class MobileNotification extends ANotificationHeightConverter {
-  public updateManyPositions(fromIndex: number): void {
+  public updateManyPositions(_: number): void {
     this.currentNotifications.notificationPosition.update((notifications) => {
       for (let i = 0; i < notifications.length; i++) {
         this.currentNotifications.notificationPosition()[i].top =
@@ -86,26 +73,39 @@ class DesktopNotification extends ANotificationHeightConverter {
   }
 }
 
-class CurrentNotifications {
-  public notificationPosition: WritableSignal<NotificationPlace[]> = signal<
-    NotificationPlace[]
-  >([]);
-
-  public getLength(): number {
-    return this.notificationPosition().length;
-  }
-
-  public getByIndex(index: number): NotificationPlace | null {
-    return this.notificationPosition()[index] || null;
-  }
-}
-
+@Injectable()
 export class NotificationHeightConverter {
   private currentNotifications: CurrentNotifications =
     new CurrentNotifications();
 
   private currentStrategy: ANotificationHeightConverter =
     new MobileNotification(this.currentNotifications);
+
+  private destroyRef: DestroyRef = inject(DestroyRef);
+
+  constructor(private windowResizeService: WindowResizerService) {
+    this.listenToResizeChange();
+  }
+
+  private listenToResizeChange(): void {
+    this.windowResizeService
+      .listenToResize()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => {
+        if (
+          event > 1200 &&
+          !(this.currentStrategy instanceof DesktopNotification)
+        ) {
+          this.currentStrategy = new DesktopNotification(
+            this.currentNotifications,
+          );
+        } else if (!(this.currentStrategy instanceof MobileNotification)) {
+          this.currentStrategy = new MobileNotification(
+            this.currentNotifications,
+          );
+        }
+      });
+  }
 
   public getNotifications(): Signal<NotificationPlace[]> {
     return this.currentNotifications.notificationPosition;
