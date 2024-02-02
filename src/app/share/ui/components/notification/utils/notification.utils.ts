@@ -6,72 +6,8 @@ import {
 } from './notification-strategy/notification-template';
 import { WindowResizerService } from '../../../../services/Window-resizer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-class MobileNotification extends ANotificationHeightConverter {
-  public updateManyPositions(_: number): void {
-    this.currentNotifications.notificationPosition.update((notifications) => {
-      for (let i = 0; i < notifications.length; i++) {
-        this.currentNotifications.notificationPosition()[i].top =
-          this.calculatePosition(i);
-      }
-
-      return notifications;
-    });
-  }
-
-  public calculatePosition(index: number): number {
-    if (index === 0) {
-      return 0;
-    }
-
-    const { top, height } = this.currentNotifications.getByIndex(index - 1)!;
-
-    return top - height - 20;
-  }
-
-  public addNewNotification(record: Omit<NotificationPlace, 'top'>): void {
-    const length = this.currentNotifications.getByIndex(0)?.top || 0;
-    this.currentNotifications.notificationPosition.update((notifications) => [
-      ...notifications,
-      { ...record, top: this.calculatePosition(length) },
-    ]);
-  }
-}
-
-class DesktopNotification extends ANotificationHeightConverter {
-  public updateManyPositions(fromIndex: number): void {
-    this.currentNotifications.notificationPosition.update((notifications) => {
-      for (
-        let i = fromIndex;
-        i < this.currentNotifications.notificationPosition().length;
-        i++
-      ) {
-        this.currentNotifications.notificationPosition()[i].top =
-          this.calculatePosition(i);
-      }
-
-      return notifications;
-    });
-  }
-
-  public calculatePosition(index: number): number {
-    if (index === 0) {
-      return 0;
-    }
-
-    const { top, height } = this.currentNotifications.getByIndex(index - 1)!;
-
-    return top + height + 20;
-  }
-
-  public addNewNotification(record: Omit<NotificationPlace, 'top'>): void {
-    const length = this.currentNotifications.getLength();
-    this.currentNotifications.notificationPosition.update((notifications) => [
-      ...notifications,
-      { ...record, top: this.calculatePosition(length) },
-    ]);
-  }
-}
+import { MobileNotification } from './notification-strategy/mobile-notification-strategy';
+import { DesktopNotification } from './notification-strategy/desktop-notification-strategy';
 
 @Injectable()
 export class NotificationHeightConverter {
