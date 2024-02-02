@@ -6,11 +6,9 @@ import {
   HostListener,
   inject,
   Input,
-  OnChanges,
   OnInit,
   Output,
   signal,
-  SimpleChanges,
   WritableSignal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -117,6 +115,11 @@ export class NotificationComponent implements OnInit {
     this.close$.next();
   }
 
+  test() {
+    this.config.text =
+      'dsafdsfasdfsdafsadf sdafasdf asdf asjdfjas dfasdjfjasdk fjklasjdfkajsldkfjklas;dj;faljdsfklaskjdlfja;lsdjfa sdaklf kaljsdfklsjdkfljaksl fjka skjfl askldfkalsd fklasjdklaklsdj kalsdj kldjsaf klasdjfkladjsfkla sdkf klsda fklajs dfkj asdklj ';
+  }
+
   private countTime(): void {
     if (!this.config.timeout) {
       return;
@@ -133,11 +136,6 @@ export class NotificationComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => this.close());
-  }
-
-  test() {
-    this.config.text =
-      'dsafdsfasdfsdafsadf sdafasdf asdf asjdfjas dfasdjfjasdk fjklasjdfkajsldkfjklas;dj;faljdsfklaskjdlfja;lsdjfa sdaklf kaljsdfklsjdkfljaksl fjka skjfl askldfkalsd fklasjdklaklsdj kalsdj kldjsaf klasdjfkladjsfkla sdkf klsda fklajs dfkj asdklj ';
   }
 }
 

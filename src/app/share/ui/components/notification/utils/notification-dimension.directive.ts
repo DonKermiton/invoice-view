@@ -7,7 +7,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { NotificationDimensionChangeEvent } from '../notification-wrapper.component';
+import { NotificationDimensionChangeEvent } from './notification-strategy/notification-template';
 
 @Directive({
   selector: '[appNotificationDimension]',

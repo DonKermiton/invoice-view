@@ -18,6 +18,7 @@ import { AuthInterceptor } from './share/http/http.interceptor';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { initTranslations } from './core/i18n/i18n.service';
 import { getHttpURL } from '@/core/http/set-http.utils';
+import { WindowResizerService } from './share/services/Window-resizer.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,6 +50,10 @@ import { getHttpURL } from '@/core/http/set-http.utils';
       useFactory: getHttpURL,
       multi: true,
       deps: [HttpClient, Store],
+    },
+    {
+      provide: WindowResizerService,
+      useClass: WindowResizerService,
     },
   ],
   bootstrap: [AppComponent],
