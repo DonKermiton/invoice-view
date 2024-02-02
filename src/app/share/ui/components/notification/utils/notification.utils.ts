@@ -23,11 +23,7 @@ abstract class ANotificationHeightConverter {
 class MobileNotification extends ANotificationHeightConverter {
   public updateManyPositions(fromIndex: number): void {
     this.currentNotifications.notificationPosition.update((notifications) => {
-      for (
-        let i = fromIndex;
-        i < this.currentNotifications.notificationPosition().length;
-        i++
-      ) {
+      for (let i = 0; i < notifications.length; i++) {
         this.currentNotifications.notificationPosition()[i].top =
           this.calculatePosition(i);
       }
