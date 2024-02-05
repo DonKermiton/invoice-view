@@ -7,6 +7,7 @@ import {
   HostBinding,
   HostListener,
   inject,
+  Input,
   signal,
   TemplateRef,
   WritableSignal,
@@ -19,11 +20,12 @@ import {
 } from '@/share/forms/select/select-dropdown/select-default-item/select-default-item.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { OverlayControl } from '../../../overlay/overlayControl';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-select-dropdown',
   standalone: true,
-  imports: [CommonModule, SelectDefaultItemComponent],
+  imports: [CommonModule, SelectDefaultItemComponent, FormsModule],
   templateUrl: './select-dropdown.component.html',
   styleUrl: './select-dropdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -71,6 +73,15 @@ export class SelectDropdownComponent
     { key: 'third test element', value: 'some value' },
   ];
 
+  @Input()
+  //todo:: change to false
+  public withSearch = false;
+
+  // will be called only if prop withSearch is set to true
+  public searchFuncRef:
+    | ((item: DefaultSelectItemType<string>) => boolean)
+    | null = null;
+
   @HostBinding('style.top')
   public top = '0px';
 
@@ -84,6 +95,8 @@ export class SelectDropdownComponent
 
   // todo::
   public customSelectItem: TemplateRef<any> | null = null;
+
+  protected searchControl: string | null = '';
 
   @HostBinding('style.left')
   private left = '0px';
@@ -123,6 +136,17 @@ export class SelectDropdownComponent
 
   public itemSelected(item: DefaultSelectItemType<string>): void {
     this.selectedElement$.set(item.value);
+  }
+
+  protected onSearchInputChange($event: string): void {
+    console.log($event);
+  }
+
+  protected itemMatchesFilter(item: DefaultSelectItemType<string>): boolean {
+    if (this.searchFuncRef != null) {
+      return this.searchFuncRef(item);
+    }
+    return true;
   }
 
   private closeSelect(): void {

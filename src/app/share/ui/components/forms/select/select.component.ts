@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ControlErrorComponent } from '@/share/forms/control-error/control-error.component';
 import { OverlayService } from '../../overlay/overlay.service';
 import { SelectDropdownComponent } from '@/share/forms/select/select-dropdown/select-dropdown.component';
+import { DefaultSelectItemType } from '@/share/forms/select/select-dropdown/select-default-item/select-default-item.component';
 
 @Component({
   selector: 'app-select',
@@ -30,6 +31,12 @@ import { SelectDropdownComponent } from '@/share/forms/select/select-dropdown/se
 export class SelectComponent extends GenericControlValueAcc {
   @Input()
   public label = 'Email';
+
+  // set only if you want to add search
+  @Input()
+  public searchFunc: null | ((item: DefaultSelectItemType<string>) => boolean) =
+    null;
+
   public component: ComponentRef<SelectDropdownComponent> | null = null;
   public isFocused$: WritableSignal<boolean> = signal(false);
 
@@ -65,6 +72,11 @@ export class SelectComponent extends GenericControlValueAcc {
 
     if (this.component) {
       this.component.instance.changeSelectPosition(rect);
+      if (this.searchFunc != null) {
+        this.component.instance.withSearch = true;
+        this.component.instance.searchFuncRef = this.searchFunc;
+      }
+
       effect(
         () => {
           const value = this.component?.instance.selectedElement$();
